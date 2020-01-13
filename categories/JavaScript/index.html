@@ -147,6 +147,85 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-13T10:53:52.000Z">2020-01-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 731 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/01/13/useCallback使用场景/">useCallback使用场景</a>
+            
+        </h1>
+        <div class="content">
+            <h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
+<li>父组件向子组件传递函数时, 阻止传递的函数在每次 render 时重新创建，从而造成子组件 rerender</li>
+<li>something the other case where you want to use useCallback is in a case where you’re using for example like useEffect and you have some logic and you need to pin on this increment function you don’t want this function to be changing all the time or else that useEffect will keep firing off</li>
+</ol>
+<h2 id="相应的例子"><a href="#相应的例子" class="headerlink" title="相应的例子"></a>相应的例子</h2><ol>
+<li>父组件传递函数给子组件</li>
+</ol>
+<p>使用 useCallback 前，父组件直接传函数给子组件的方式。每次 app render 时, 传递的函数 () =&gt; setCount(count + 1) 都会重新创建一次。每次点击 hello 按钮，都会进行 render。</p>
+<p><img src="https://i.loli.net/2020/01/13/IfpheSAgVvOjxDl.gif" alt="usecallback_lamda_props_rerender.gif"></p>
+<p>使用 useCallback  前的父组件</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Hello &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./hello'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">	  <span class="hljs-comment">// 需要注意, 每次 render 传递的函数都会重新生成</span></span><br><span class="line">	  <span class="hljs-comment">// 所以下面 () =&gt; setCount(count + 1)</span></span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Hello increment=&#123;() =&gt; setCount(count + <span class="hljs-number">1</span>)&#125; /&gt;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>子组件</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useRef &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 使用 React.memo 使组件仅在 props 更新时更新</span></span><br><span class="line"><span class="hljs-comment">// 未使用 useCallback 时, 由于每次传递过来的 increment 接到的函数都会更新,</span></span><br><span class="line"><span class="hljs-comment">// 组件每次都会渲染</span></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Hello = React.memo(<span class="hljs-function">(<span class="hljs-params">&#123; increment &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="hljs-comment">// 以下两句用来查看组件更新的次数</span></span><br><span class="line">    <span class="hljs-keyword">const</span> renderCount = useRef(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'render count:'</span>, renderCount.current++)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> &lt;button onClick=&#123;increment&#125;&gt;hello&lt;/button&gt;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>使用 useCallback 包装要传递的函数后, 每次更新数据组件不再重新渲染<br><img src="https://i.loli.net/2020/01/13/fw2PG4V8AvoEtqX.gif" alt="usecallback_prevent_rerender.gif"></p>
+<p>使用 useCallback 改写原父组件</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState, useCallback &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Hello &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./hello'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">    </span><br><span class="line">	  <span class="hljs-comment">// useCallback 仅将 setCount 作为依赖, 只要 setCount 不改变,</span></span><br><span class="line">	  <span class="hljs-comment">// increment 函数就不会改变</span></span><br><span class="line">	  <span class="hljs-comment">// 相应的子组件接受到的 props 没改变, 就不会 rerender</span></span><br><span class="line">    <span class="hljs-keyword">const</span> increment = useCallback(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setCount(<span class="hljs-function"><span class="hljs-params">prevCount</span> =&gt;</span> prevCount + <span class="hljs-number">1</span>)</span><br><span class="line">    &#125;, [setCount])</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Hello increment=&#123;increment&#125; /&gt;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用 map 渲染多个子组件并传递函数<br>下面的计数器将一个数字构成的数组渲染成多个按钮, 点击按钮给 count 增加相应的值。由于直接传递了<br><img src="https://i.loli.net/2020/01/13/9YkNGWohZicHn3B.gif" alt="usecallback_map_rerender.gif"> </li>
+</ol>
+<p>会造成 rerender 的父组件函数传递方式</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState, useCallback &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Num &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./numbers'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-keyword">const</span> nums = [<span class="hljs-number">3</span>, <span class="hljs-number">33</span>, <span class="hljs-number">333</span>]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">const</span> increment = useCallback(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> &#123;</span><br><span class="line">        setCount(<span class="hljs-function"><span class="hljs-params">prevCount</span> =&gt;</span> prevCount + n)</span><br><span class="line">    &#125;, [setCount])</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                nums.map(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span></span><br><span class="line">                    &lt;Num</span><br><span class="line">                        onClick=&#123;() =&gt; increment(n)&#125;</span><br><span class="line">                        n=&#123;n&#125;</span><br><span class="line">                        key=&#123;n&#125;</span><br><span class="line">                    /&gt;</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>应该将函数改写为<br><img src="https://i.loli.net/2020/01/13/AXG6dRY8rVjscan.gif" alt="usecallback_prevent_map_rerender.gif"></p>
+<p>改写后的 父组件</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState, useCallback &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Num &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./numbers'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-keyword">const</span> nums = [<span class="hljs-number">3</span>, <span class="hljs-number">33</span>, <span class="hljs-number">333</span>]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">const</span> increment = useCallback(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> &#123;</span><br><span class="line">        setCount(<span class="hljs-function"><span class="hljs-params">prevCount</span> =&gt;</span> prevCount + n)</span><br><span class="line">    &#125;, [setCount])</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                nums.map(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span></span><br><span class="line">                    &lt;Num</span><br><span class="line">                        increment=&#123;increment&#125;</span><br><span class="line">                        n=&#123;n&#125;</span><br><span class="line">                        key=&#123;n&#125;</span><br><span class="line">                    /&gt;</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改写后的子组件</p>
+<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useRef &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 使用 React.memo 使组件仅在 props 更新时更新</span></span><br><span class="line"><span class="hljs-comment">// 未使用 useCallback 时, 由于每次传递过来的 increment 接到的函数都会更新,</span></span><br><span class="line"><span class="hljs-comment">// 组件每次都会渲染</span></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Num = React.memo(<span class="hljs-function">(<span class="hljs-params">&#123; increment, n &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="hljs-comment">// 以下两句用来查看组件更新的次数</span></span><br><span class="line">    <span class="hljs-keyword">const</span> renderCount = useRef(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'render count:'</span>, renderCount.current++)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">const</span> onClick = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> &#123;</span><br><span class="line">        increment(n)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> &lt;button onClick=&#123;() =&gt; &#123;onClick(n)&#125;&#125;&gt;&#123;n&#125;&lt;/button&gt;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+         
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-10-08T02:25:49.000Z">2019-10-08</time>
                 
                 <div class="level-item">
@@ -244,7 +323,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        3
+                        2
                     </p>
                 </div>
             </div>
@@ -285,6 +364,27 @@
     
         
 
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/JavaScript/">
+            <span class="level-start">
+                <span class="level-item">JavaScript</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
 
     
         
@@ -309,9 +409,91 @@
             <div class="column-right-shadow is-hidden-widescreen ">
         
             
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/01/13/useCallback使用场景/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="useCallback使用场景">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-13T10:53:52.000Z">2020-01-13</time></div>
+                    <a href="/2020/01/13/useCallback使用场景/" class="title has-link-black-ter is-size-6 has-text-weight-normal">useCallback使用场景</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/08/test-my-site/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="test\_my\_site">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-08T02:25:49.000Z">2019-10-08</time></div>
+                    <a href="/2019/10/08/test-my-site/" class="title has-link-black-ter is-size-6 has-text-weight-normal">test\_my\_site</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
 
         
             
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
 
         
         </div>
@@ -328,9 +510,91 @@
 <div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
     
         
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/01/13/useCallback使用场景/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="useCallback使用场景">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-01-13T10:53:52.000Z">2020-01-13</time></div>
+                    <a href="/2020/01/13/useCallback使用场景/" class="title has-link-black-ter is-size-6 has-text-weight-normal">useCallback使用场景</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/10/08/test-my-site/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="test\_my\_site">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-10-08T02:25:49.000Z">2019-10-08</time></div>
+                    <a href="/2019/10/08/test-my-site/" class="title has-link-black-ter is-size-6 has-text-weight-normal">test\_my\_site</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
 
     
         
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/01/">
+                <span class="level-start">
+                    <span class="level-item">一月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/10/">
+                <span class="level-start">
+                    <span class="level-item">十月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
 
     
     
