@@ -7,20 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>喵喵玄的blog</title>
+<title>PHP入门 - 喵喵玄的blog</title>
 
 
-    <meta name="description" content="code">
-<meta property="og:type" content="website">
-<meta property="og:title" content="喵喵玄的blog">
-<meta property="og:url" content="http://miaomiaoxuan.cn/index.html">
+    <meta name="description" content="PHP看起来一点也不香，但是可以通过较少的时间成本体验一下连接并操作数据库。  初识PHP超文本预处理器，和html关系，让html预先处理要产出什么。PHP可以将程序嵌入到HTML里执行；且可以执行编译后代码。 PHP和JavaScipt比较1.可以直接写在html里2.块级作用域，php块级作用取不到外部变量，js可以取到。php如果想取，需要加 global$a PHP基础操作 声明变量$">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP入门">
+<meta property="og:url" content="http://miaomiaoxuan.cn/2019/10/08/php-1/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
-<meta property="og:description" content="code">
+<meta property="og:description" content="PHP看起来一点也不香，但是可以通过较少的时间成本体验一下连接并操作数据库。  初识PHP超文本预处理器，和html关系，让html预先处理要产出什么。PHP可以将程序嵌入到HTML里执行；且可以执行编译后代码。 PHP和JavaScipt比较1.可以直接写在html里2.块级作用域，php块级作用取不到外部变量，js可以取到。php如果想取，需要加 global$a PHP基础操作 声明变量$">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
+<meta property="og:updated_time" content="2019-10-10T08:45:56.017Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="喵喵玄的blog">
-<meta name="twitter:description" content="code">
+<meta name="twitter:title" content="PHP入门">
+<meta name="twitter:description" content="PHP看起来一点也不香，但是可以通过较少的时间成本体验一下连接并操作数据库。  初识PHP超文本预处理器，和html关系，让html预先处理要产出什么。PHP可以将程序嵌入到HTML里执行；且可以执行编译后代码。 PHP和JavaScipt比较1.可以直接写在html里2.块级作用域，php块级作用取不到外部变量，js可以取到。php如果想取，需要加 global$a PHP基础操作 声明变量$">
 <meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 
 
@@ -79,7 +80,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="喵喵玄的blog" height="28">
+                <img src="/images/logo.svg" alt="PHP入门" height="28">
             
             </a>
         </div>
@@ -87,7 +88,7 @@
             
             <div class="navbar-start">
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/">Home</a>
                 
                 <a class="navbar-item"
@@ -115,6 +116,10 @@
                     
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -128,142 +133,7 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-01-13T07:26:16.240Z">2020-01-13</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 734 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/01/13/usecallback/"></a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="useCallback"><a href="#useCallback" class="headerlink" title="useCallback"></a>useCallback</h1><p>#React/Hooks</p>
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
-<li>父组件向子组件传递函数时, 阻止传递的函数在每次 render 时重新创建，从而造成子组件 rerender</li>
-<li>something the other case where you want to use useCallback is in a case where you’re using for example like useEffect and you have some logic and you need to pin on this increment function you don’t want this function to be changing all the time or else that useEffect will keep firing off</li>
-</ol>
-<h2 id="相应的例子"><a href="#相应的例子" class="headerlink" title="相应的例子"></a>相应的例子</h2><ol>
-<li>父组件传递函数给子组件</li>
-</ol>
-<p>使用 useCallback 前，父组件直接传函数给子组件的方式。每次 app render 时, 传递的函数 () =&gt; setCount(count + 1) 都会重新创建一次。每次点击 hello 按钮，都会进行 render。</p>
-<p><img src="https://i.loli.net/2020/01/13/IfpheSAgVvOjxDl.gif" alt="usecallback_lamda_props_rerender.gif"></p>
-<p>使用 useCallback  前的父组件</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Hello &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./hello'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">	  <span class="hljs-comment">// 需要注意, 每次 render 传递的函数都会重新生成</span></span><br><span class="line">	  <span class="hljs-comment">// 所以下面 () =&gt; setCount(count + 1)</span></span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Hello increment=&#123;() =&gt; setCount(count + <span class="hljs-number">1</span>)&#125; /&gt;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>子组件</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useRef &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 使用 React.memo 使组件仅在 props 更新时更新</span></span><br><span class="line"><span class="hljs-comment">// 未使用 useCallback 时, 由于每次传递过来的 increment 接到的函数都会更新,</span></span><br><span class="line"><span class="hljs-comment">// 组件每次都会渲染</span></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Hello = React.memo(<span class="hljs-function">(<span class="hljs-params">&#123; increment &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="hljs-comment">// 以下两句用来查看组件更新的次数</span></span><br><span class="line">    <span class="hljs-keyword">const</span> renderCount = useRef(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'render count:'</span>, renderCount.current++)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> &lt;button onClick=&#123;increment&#125;&gt;hello&lt;/button&gt;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<p>使用 useCallback 包装要传递的函数后, 每次更新数据组件不再重新渲染<br><img src="https://i.loli.net/2020/01/13/fw2PG4V8AvoEtqX.gif" alt="usecallback_prevent_rerender.gif"></p>
-<p>使用 useCallback 改写原父组件</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState, useCallback &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Hello &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./hello'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">    </span><br><span class="line">	  <span class="hljs-comment">// useCallback 仅将 setCount 作为依赖, 只要 setCount 不改变,</span></span><br><span class="line">	  <span class="hljs-comment">// increment 函数就不会改变</span></span><br><span class="line">	  <span class="hljs-comment">// 相应的子组件接受到的 props 没改变, 就不会 rerender</span></span><br><span class="line">    <span class="hljs-keyword">const</span> increment = useCallback(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;</span><br><span class="line">        setCount(<span class="hljs-function"><span class="hljs-params">prevCount</span> =&gt;</span> prevCount + <span class="hljs-number">1</span>)</span><br><span class="line">    &#125;, [setCount])</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;Hello increment=&#123;increment&#125; /&gt;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>使用 map 渲染多个子组件并传递函数<br>下面的计数器将一个数字构成的数组渲染成多个按钮, 点击按钮给 count 增加相应的值。由于直接传递了<br><img src="https://i.loli.net/2020/01/13/9YkNGWohZicHn3B.gif" alt="usecallback_map_rerender.gif"> </li>
-</ol>
-<p>会造成 rerender 的父组件函数传递方式</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState, useCallback &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Num &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./numbers'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-keyword">const</span> nums = [<span class="hljs-number">3</span>, <span class="hljs-number">33</span>, <span class="hljs-number">333</span>]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">const</span> increment = useCallback(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> &#123;</span><br><span class="line">        setCount(<span class="hljs-function"><span class="hljs-params">prevCount</span> =&gt;</span> prevCount + n)</span><br><span class="line">    &#125;, [setCount])</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                nums.map(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span></span><br><span class="line">                    &lt;Num</span><br><span class="line">                        onClick=&#123;() =&gt; increment(n)&#125;</span><br><span class="line">                        n=&#123;n&#125;</span><br><span class="line">                        key=&#123;n&#125;</span><br><span class="line">                    /&gt;</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>应该将函数改写为<br><img src="https://i.loli.net/2020/01/13/AXG6dRY8rVjscan.gif" alt="usecallback_prevent_map_rerender.gif"></p>
-<p>改写后的 父组件</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState, useCallback &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"><span class="hljs-keyword">import</span> &#123; Num &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'./numbers'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Counter</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-keyword">const</span> nums = [<span class="hljs-number">3</span>, <span class="hljs-number">33</span>, <span class="hljs-number">333</span>]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">const</span> increment = useCallback(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> &#123;</span><br><span class="line">        setCount(<span class="hljs-function"><span class="hljs-params">prevCount</span> =&gt;</span> prevCount + n)</span><br><span class="line">    &#125;, [setCount])</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                nums.map(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span></span><br><span class="line">                    &lt;Num</span><br><span class="line">                        increment=&#123;increment&#125;</span><br><span class="line">                        n=&#123;n&#125;</span><br><span class="line">                        key=&#123;n&#125;</span><br><span class="line">                    /&gt;</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">            &lt;div&gt;count: &#123;count&#125;&lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">        &lt;/</span>div&gt;</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>改写后的子组件</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useRef &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 使用 React.memo 使组件仅在 props 更新时更新</span></span><br><span class="line"><span class="hljs-comment">// 未使用 useCallback 时, 由于每次传递过来的 increment 接到的函数都会更新,</span></span><br><span class="line"><span class="hljs-comment">// 组件每次都会渲染</span></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Num = React.memo(<span class="hljs-function">(<span class="hljs-params">&#123; increment, n &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="hljs-comment">// 以下两句用来查看组件更新的次数</span></span><br><span class="line">    <span class="hljs-keyword">const</span> renderCount = useRef(<span class="hljs-number">0</span>)</span><br><span class="line">    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'render count:'</span>, renderCount.current++)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">const</span> onClick = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> &#123;</span><br><span class="line">        increment(n)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> &lt;button onClick=&#123;() =&gt; &#123;onClick(n)&#125;&#125;&gt;&#123;n&#125;&lt;/button&gt;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-        </div>
-         
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-10-08T02:25:49.000Z">2019-10-08</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    34 分钟 读完 (大约 5079 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/10/08/test-my-site/">test\_my\_site</a>
-            
-        </h1>
-        <div class="content">
-            <ul>
-<li>代码可读性</li>
-<li>Array 函数式方法<br>  filter map forEach some every<br>git 教程<br><a href="http://sourceforge.net/projects/git-osx-installer/" target="_blank" rel="noopener">http://sourceforge.net/projects/git-osx-installer/</a><br>git flow<br>git checkout<br>master 链路 —- commit id  a  ==clone ==&gt; commit a   =&gt; b  =&gt;  commit b<br> =&gt; c   ——–|</li>
-</ul>
-<p>feature 分支合并到 master ，如果出现冲突，需要将 master 分支合并到 feature 分支，解决完冲突，再合并回 master</p>
-<p>git pull</p>
-        </div>
-         
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/10/08/test-my-site/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
 <div class="card">
     
     <div class="card-content article ">
@@ -285,7 +155,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/10/08/php-1/">PHP入门</a>
+                PHP入门
             
         </h1>
         <div class="content">
@@ -390,6 +260,15 @@
 
         </div>
          
+                <ul class="post-copyright">
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2019/10/08/php-1/">PHP入门</a></li>
+                    <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2019/10/08/php-1/">http://miaomiaoxuan.cn/2019/10/08/php-1/</a></li>
+                    <li><strong>发布时间：</strong>2019-10-08</li>
+                    <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+                    </li>
+                </ul>
+         
         
         
         
@@ -398,11 +277,73 @@
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章有用，投喂一下作者吧👼</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alipay.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wechat.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/10/08/test-my-site/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">test\_my\_site</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
 
 
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: false,
+        app_id: 'sYkoO41iFaSSUmVXzOME2jlD-gzGzoHsz',
+        app_key: 'iny5WXdjJ7GmWd6WVN3fbblE',
+        placeholder: '有啥问题请评论'
+    });
+</script>
+
+    </div>
+</div>
 
 </div>
                 
@@ -486,57 +427,90 @@
 
     
         
-    
-        
-
-
-    
-        
-    
-        
-    <div class="card widget">
+<div class="card widget column-left is-sticky" id="toc">
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                标签
+                目录
             </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#初识PHP">
+        <span class="has-mr-6">1</span>
+        <span>初识PHP</span>
+        </a></li><li>
+        <a class="is-flex" href="#PHP基础操作">
+        <span class="has-mr-6">2</span>
+        <span>PHP基础操作</span>
+        </a></li><li>
+        <a class="is-flex" href="#PHP和MySQL">
+        <span class="has-mr-6">3</span>
+        <span>PHP和MySQL</span>
+        </a></li><li>
+        <a class="is-flex" href="#PHP面向对象入门">
+        <span class="has-mr-6">4</span>
+        <span>PHP面向对象入门</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#面向对象介绍">
+        <span class="has-mr-6">4.1</span>
+        <span>面向对象介绍</span>
+        </a></li><li>
+        <a class="is-flex" href="#通过类实例化对象">
+        <span class="has-mr-6">4.2</span>
+        <span>通过类实例化对象</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#构造方法和析构方法">
+        <span class="has-mr-6">5</span>
+        <span>构造方法和析构方法</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#构造方法">
+        <span class="has-mr-6">5.1</span>
+        <span>构造方法</span>
+        </a></li><li>
+        <a class="is-flex" href="#析构方法">
+        <span class="has-mr-6">5.2</span>
+        <span>析构方法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#PHP面向对象的封装性">
+        <span class="has-mr-6">6</span>
+        <span>PHP面向对象的封装性</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#设置私有成员与私有成员访问">
+        <span class="has-mr-6">6.1</span>
+        <span>设置私有成员与私有成员访问</span>
+        </a></li><li>
+        <a class="is-flex" href="#魔术方法-set">
+        <span class="has-mr-6">6.2</span>
+        <span>魔术方法_ _set()</span>
+        </a></li><li>
+        <a class="is-flex" href="#魔术方法-get">
+        <span class="has-mr-6">6.3</span>
+        <span>魔术方法_ _get()</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#PHP面向对象的继承和多态">
+        <span class="has-mr-6">7</span>
+        <span>PHP面向对象的继承和多态</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#类继承的应用">
+        <span class="has-mr-6">7.1</span>
+        <span>类继承的应用</span>
+        </a></li><li>
+        <a class="is-flex" href="#访问类型控制">
+        <span class="has-mr-6">7.2</span>
+        <span>访问类型控制</span>
+        </a></li><li>
+        <a class="is-flex" href="#子类中重载父类方法">
+        <span class="has-mr-6">7.3</span>
+        <span>子类中重载父类方法</span>
+        </a></li></ul></li></ul>
         </div>
     </div>
 </div>
 
-
     
     
-            <div class="column-right-shadow is-hidden-widescreen ">
-        
-            
-
-        
-            
-
+            <div class="column-right-shadow  ">
         
         </div>
-    
-</div>
-
-
-                
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-
-    
-        
-
-    
     
 </div>
 
@@ -551,7 +525,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="喵喵玄的blog" height="28">
+                    <img src="/images/logo.svg" alt="PHP入门" height="28">
                 
                 </a>
                 <p class="is-size-7">
