@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>useCallback使用场景说明和举🌰 - 喵喵玄的blog</title>
+<title>useCallback使用场景说明和举栗 - 喵喵玄的blog</title>
 
 
-    <meta name="description" content="useCallback 使用场景说明和举栗 使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。">
+    <meta name="description" content="使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。   本文介绍了什么时候应该使用 useCa">
 <meta property="og:type" content="article">
-<meta property="og:title" content="useCallback使用场景说明和举🌰">
+<meta property="og:title" content="useCallback使用场景说明和举栗">
 <meta property="og:url" content="http://miaomiaoxuan.cn/2020/01/13/useCallback使用场景/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
-<meta property="og:description" content="useCallback 使用场景说明和举栗 使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。">
+<meta property="og:description" content="使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。   本文介绍了什么时候应该使用 useCa">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
-<meta property="og:updated_time" content="2020-01-14T06:28:37.964Z">
+<meta property="og:updated_time" content="2020-01-14T06:39:47.360Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="useCallback使用场景说明和举🌰">
-<meta name="twitter:description" content="useCallback 使用场景说明和举栗 使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。">
+<meta name="twitter:title" content="useCallback使用场景说明和举栗">
+<meta name="twitter:description" content="使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。   本文介绍了什么时候应该使用 useCa">
 <meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 
 
@@ -80,7 +80,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="useCallback使用场景说明和举🌰" height="28">
+                <img src="/images/logo.svg" alt="useCallback使用场景说明和举栗" height="28">
             
             </a>
         </div>
@@ -150,7 +150,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1214 个字)
+                    8 分钟 读完 (大约 1202 个字)
                 </span>
                 
                 
@@ -159,15 +159,16 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                useCallback使用场景说明和举🌰
+                useCallback使用场景说明和举栗
             
         </h1>
         <div class="content">
-            <h1 id="useCallback-使用场景说明和举栗"><a href="#useCallback-使用场景说明和举栗" class="headerlink" title="useCallback 使用场景说明和举栗"></a>useCallback 使用场景说明和举栗</h1><blockquote>
+            <blockquote>
 <p>使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。  </p>
 <p>本文介绍了什么时候应该使用 useCallback, useCallback 如何和 React.memo() 配合使用, 并附上示例代码及gif截屏, 方便更直观的理解。  </p>
 </blockquote>
-<p>&lt;!—more—&gt;</p>
+<a id="more"></a>
+
 <h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>把你要的函数用 useCallback 包一层, 定义好只有什么参数变化时, 这个被包过的函数才需要更新</p>
 <figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> yourfunc = useCallback(</span><br><span class="line">	() =&gt; &#123;</span><br><span class="line">	<span class="hljs-comment">// 你要写的函数逻辑</span></span><br><span class="line">	</span><br><span class="line">	&#125;, [</span><br><span class="line">		<span class="hljs-comment">// 在数组里定义什么参数改变时才需要更新 yourfunc,</span></span><br><span class="line">		<span class="hljs-comment">// 只要这里的依赖的参数没有变对于任何使用它的一方它都没有变</span></span><br><span class="line">	]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
@@ -223,7 +224,7 @@
         </div>
          
                 <ul class="post-copyright">
-                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/01/13/useCallback使用场景/">useCallback使用场景说明和举🌰</a></li>
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/01/13/useCallback使用场景/">useCallback使用场景说明和举栗</a></li>
                     <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
                     <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/01/13/useCallback使用场景/">http://miaomiaoxuan.cn/2020/01/13/useCallback使用场景/</a></li>
                     <li><strong>发布时间：</strong>2020-01-13</li>
@@ -318,7 +319,7 @@
                     
                     
                     <p class="is-size-6 is-block">
-                        Frontend Dveloper
+                        Frontend Developer
                     </p>
                     
                     
@@ -382,22 +383,18 @@
                 目录
             </h3>
             <ul class="menu-list"><li>
-        <a class="is-flex" href="#useCallback-使用场景说明和举栗">
-        <span class="has-mr-6">1</span>
-        <span>useCallback 使用场景说明和举栗</span>
-        </a><ul class="menu-list"><li>
         <a class="is-flex" href="#基本用法">
-        <span class="has-mr-6">1.1</span>
+        <span class="has-mr-6">1</span>
         <span>基本用法</span>
         </a></li><li>
         <a class="is-flex" href="#使用场景">
-        <span class="has-mr-6">1.2</span>
+        <span class="has-mr-6">2</span>
         <span>使用场景</span>
         </a></li><li>
         <a class="is-flex" href="#栗子🌰">
-        <span class="has-mr-6">1.3</span>
+        <span class="has-mr-6">3</span>
         <span>栗子🌰</span>
-        </a></li></ul></li></ul>
+        </a></li></ul>
         </div>
     </div>
 </div>
@@ -421,7 +418,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="useCallback使用场景说明和举🌰" height="28">
+                    <img src="/images/logo.svg" alt="useCallback使用场景说明和举栗" height="28">
                 
                 </a>
                 <p class="is-size-7">
