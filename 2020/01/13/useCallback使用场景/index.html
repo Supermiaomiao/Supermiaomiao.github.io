@@ -18,7 +18,7 @@
 <meta property="og:description" content="使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。   本文介绍了什么时候应该使用 useCa">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
-<meta property="og:updated_time" content="2020-01-14T06:39:47.360Z">
+<meta property="og:updated_time" content="2020-01-29T14:35:25.403Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="useCallback使用场景说明和举栗">
 <meta name="twitter:description" content="使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。   本文介绍了什么时候应该使用 useCa">
@@ -172,13 +172,9 @@
 <h2 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h2><p>把你要的函数用 useCallback 包一层, 定义好只有什么参数变化时, 这个被包过的函数才需要更新</p>
 <figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> yourfunc = useCallback(</span><br><span class="line">	() =&gt; &#123;</span><br><span class="line">	<span class="hljs-comment">// 你要写的函数逻辑</span></span><br><span class="line">	</span><br><span class="line">	&#125;, [</span><br><span class="line">		<span class="hljs-comment">// 在数组里定义什么参数改变时才需要更新 yourfunc,</span></span><br><span class="line">		<span class="hljs-comment">// 只要这里的依赖的参数没有变对于任何使用它的一方它都没有变</span></span><br><span class="line">	]</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ol>
-<li>父组件向子组件传递函数时, 阻止传递的函数在每次 render 时重新创建，从而造成子组件 rerender。需要配合 React.memo() 一起使用。</li>
-<li>在 useEffect（） 中使用外部创建的函数, 但不希望这个函数一直变化, 导致 useEffect 被重复触发。</li>
-</ol>
-<h2 id="栗子🌰"><a href="#栗子🌰" class="headerlink" title="栗子🌰"></a>栗子🌰</h2><ol>
-<li>父组件传递函数给子组件</li>
-</ol>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>1.父组件向子组件传递函数时, 阻止传递的函数在每次 render 时重新创建，从而造成子组件 rerender。需要配合 React.memo() 一起使用。</p>
+<p>2.在 useEffect（） 中使用外部创建的函数, 但不希望这个函数一直变化, 导致 useEffect 被重复触发。</p>
+<h2 id="栗子🌰"><a href="#栗子🌰" class="headerlink" title="栗子🌰"></a>栗子🌰</h2><p>1.父组件传递函数给子组件</p>
 <p>使用 useCallback 前，父组件直接传函数给子组件的方式。每次 app render 时, 传递的函数 () =&gt; setCount(count + 1) 都会重新创建一次。每次点击 hello 按钮，都会进行 render。</p>
 <p><img src="https://i.loli.net/2020/01/13/IfpheSAgVvOjxDl.gif" alt="usecallback_lamda_props_rerender.gif"></p>
 <p>上图 log 是打在子组件 &lt;Hello /&gt; 中的, 从log可以看到, 每次点击按钮都会造成子组件 rerender。</p>
@@ -271,6 +267,20 @@
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/01/29/异步和Promise执行过程图解/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">异步和Promise执行过程图解</span>
+            </a>
+        </div>
+        
+        
+    </div>
+</div>
+
 
 
 <div class="card">
@@ -338,7 +348,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        1
+                        2
                     </p>
                 </div>
             </div>
