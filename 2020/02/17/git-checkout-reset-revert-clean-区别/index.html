@@ -7,20 +7,22 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>喵喵玄的blog</title>
+<title>git checkout/reset/revert/clean 区别 - 喵喵玄的blog</title>
 
 
-    <meta name="description" content="code">
-<meta property="og:type" content="website">
-<meta property="og:title" content="喵喵玄的blog">
-<meta property="og:url" content="http://miaomiaoxuan.cn/index.html">
+    <meta name="description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
+<meta name="keywords" content="git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git checkout&#x2F;reset&#x2F;revert&#x2F;clean 区别">
+<meta property="og:url" content="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
-<meta property="og:description" content="code">
+<meta property="og:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
+<meta property="og:updated_time" content="2020-02-17T11:37:17.956Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="喵喵玄的blog">
-<meta name="twitter:description" content="code">
+<meta name="twitter:title" content="git checkout&#x2F;reset&#x2F;revert&#x2F;clean 区别">
+<meta name="twitter:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
 <meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 
 
@@ -79,7 +81,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="喵喵玄的blog" height="28">
+                <img src="/images/logo.svg" alt="git checkout/reset/revert/clean 区别" height="28">
             
             </a>
         </div>
@@ -87,7 +89,7 @@
             
             <div class="navbar-start">
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/">Home</a>
                 
                 <a class="navbar-item"
@@ -115,6 +117,10 @@
                     
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -128,8 +134,7 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-    
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
 <div class="card">
     
     <div class="card-content article ">
@@ -151,22 +156,51 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/02/17/git-checkout-reset-revert-clean-区别/">git checkout/reset/revert/clean 区别</a>
+                git checkout/reset/revert/clean 区别
             
         </h1>
         <div class="content">
             <p>这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？</p>
+<a id="more"></a>
+
+<h3 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h3><p>同时恢复 working area 和 stage area, 参数是否跟上文件名时表现不一致。</p>
+<p><strong>CHECKOUT BRANCH</strong><br>1.改变 HEAD 的指向到指定 branch<br>2.Copy the commit snapshot to the staging area<br>3.Update the working area with the branch contents </p>
+<p><img src="https://i.loli.net/2020/02/17/7I25Awg4qHLGh6z.png" alt="git_checkout_0.png"></p>
+<p><strong>CHECKOUT  - - <file></file></strong><br>1.将当前 staging area 的文件覆盖到 working area。</p>
+<p><img src="https://i.loli.net/2020/02/17/rpCQVaW7zPjFeyk.png" alt="git_checkout_1.png"></p>
+<p><strong>CHECKOUT <commit> - - FILE</commit></strong><br>从指定的提交恢复文件, 也可以恢复删除的文件, 只要指定删除文件的那个提交的父提交即可<br>1.从指定提交恢复对应文件到 staging area<br>2.再从 staging area 恢复对应文件到 working area</p>
+<p><img src="https://i.loli.net/2020/02/17/qdZ3f2irzRwCKbm.png" alt="git_checkout_2.png"></p>
+<h3 id="git-clean"><a href="#git-clean" class="headerlink" title="git clean"></a>git clean</h3><p>删除 working area 未提交到 staging area 的文件<br>使用 –dry-run 查看会删除的文件, 使用 -f 执行删除, 使用 -d 清空文件夹</p>
+<h3 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h3><p>根据后面所跟参数的不同有不一致的表现</p>
+<p><strong>RESET <commit></commit></strong><br>根据 flag 的不同有如下表现<br>—soft = 1<br>—mix = 1 &amp; 2 默认是 mix<br>—hard = 1 &amp; 2 &amp; 3<br>1.<del>移动 HEAD 和 branch</del> 到指定的提交<commit>, 会改变提交历史<br>2.重置 staging area 的文件和指定提交一致<br>3.重置 working area 的文件和指定提交一致</commit></p>
+<p><strong>GIT RESET — <file></file></strong><br>不移动 HEAD, 将 HEAD 所指分支的对应文件覆盖到 staging area<br><img src="https://i.loli.net/2020/02/17/FqVNfKHM6tv4gXl.png" alt="git_reset_3.png"></p>
+<p><strong>GIT RESET  <commit> — <file></file></commit></strong><br>1.不移动 HEAD, 将指定提交的对应文件覆盖到 staging area</p>
+<p><strong>撤销 git reset</strong><br>git reset ORIG_HEAD<br>git 会将重置之前的  HEAD 存在 ORIG_HEAD 中, 执行 git reset ORIG_HEAD  可以回到(意外执行想要撤销的) git reset - 之前的状态</p>
+<h3 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert "></a>git revert <commit></commit></h3><p>更安全的 reset。直接取消对应提交的所有变更, 产生一个新的 commit, 不会改变变更历史</p>
+<p><img src="https://i.loli.net/2020/02/17/3buqIojUY6wH29g.png" alt="git_reset_4.png"></p>
+<h4 id="参考资料及图片来源"><a href="#参考资料及图片来源" class="headerlink" title="参考资料及图片来源"></a>参考资料及图片来源</h4><p><a href="https://frontendmasters.com/courses/git-in-depth" target="_blank" rel="noopener">git-in-depth</a> Nina</p>
+
         </div>
          
+                <ul class="post-copyright">
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/">git checkout/reset/revert/clean 区别</a></li>
+                    <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/">http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/</a></li>
+                    <li><strong>发布时间：</strong>2020-02-17</li>
+                    <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+                    </li>
+                </ul>
+         
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/17/git-checkout-reset-revert-clean-区别/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/git/">git</a>
                 </div>
             </div>
         </div>
+        
         
         
     </div>
@@ -174,125 +208,73 @@
 
 
 
-
-
-
-
-
-
-    
 <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-01-29T14:36:29.000Z">2020-01-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    16 分钟 读完 (大约 2384 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章有用，投喂一下作者吧👼</h3>
+        <div class="buttons is-centered">
             
-                <a class="has-link-black-ter" href="/2020/01/29/异步和Promise执行过程图解/">异步和Promise执行过程图解</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="为什么会有异步"><a href="#为什么会有异步" class="headerlink" title="为什么会有异步"></a>为什么会有异步</h3><p>JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。</p>
-<p>但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实现的, 如 Web Browser APIs（而浏览器是用 c++ 实现的相应功能）。这些功能的执行并不是在 JS 的函数调用栈中, 而是在浏览器中, 并不会阻塞 JS 继续执行后面的代码, 这就形成了异步。</p>
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alipay.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wechat.png" alt="微信"></div>
+</a>
+
+                
         </div>
-         
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
         
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/01/29/异步和Promise执行过程图解/#more">阅读更多</a>
-                </div>
-            </div>
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/29/异步和Promise执行过程图解/">
+                <span class="level-item">异步和Promise执行过程图解</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
         
     </div>
 </div>
 
 
 
-
-
-
-
-
-
-    
 <div class="card">
-    
-    <div class="card-content article ">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-01-13T12:44:52.000Z">2020-01-13</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/React/">React</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1202 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/01/13/useCallback使用场景/">useCallback使用场景说明和举栗</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p>使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。  </p>
-<p>本文介绍了什么时候应该使用 useCallback, useCallback 如何和 React.memo() 配合使用, 并附上示例代码及gif截屏, 方便更直观的理解。  </p>
-</blockquote>
-        </div>
-         
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/01/13/useCallback使用场景/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: false,
+        app_id: 'sYkoO41iFaSSUmVXzOME2jlD-gzGzoHsz',
+        app_key: 'iny5WXdjJ7GmWd6WVN3fbblE',
+        placeholder: '有啥问题请评论'
+    });
+</script>
+
     </div>
 </div>
-
-
-
-
-
-
-
-
 
 </div>
                 
@@ -376,71 +358,42 @@
 
     
         
-    
-        
-
-
-    
-        <div class="card widget">
-    <div class="card-content">
-        <h3 class="menu-label">
-            标签云
-        </h3>
-        <a href="/tags/git/" style="font-size: 10px;">git</a>
-    </div>
-</div>
-    
-        
-    <div class="card widget">
+<div class="card widget column-left is-sticky" id="toc">
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                标签
+                目录
             </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/git/">
-                        <span class="tag">git</span>
-                        <span class="tag is-grey">1</span>
-                    </a>
-                </div>
-                
-            </div>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#git-checkout">
+        <span class="has-mr-6">1</span>
+        <span>git checkout</span>
+        </a></li><li>
+        <a class="is-flex" href="#git-clean">
+        <span class="has-mr-6">2</span>
+        <span>git clean</span>
+        </a></li><li>
+        <a class="is-flex" href="#git-reset">
+        <span class="has-mr-6">3</span>
+        <span>git reset</span>
+        </a></li><li>
+        <a class="is-flex" href="#git-revert">
+        <span class="has-mr-6">4</span>
+        <span>git revert </span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#参考资料及图片来源">
+        <span class="has-mr-6">4.1</span>
+        <span>参考资料及图片来源</span>
+        </a></li></ul></li></ul>
         </div>
     </div>
 </div>
 
-
     
     
-            <div class="column-right-shadow is-hidden-widescreen ">
-        
-            
-
-        
-            
-
+            <div class="column-right-shadow  ">
         
         </div>
-    
-</div>
-
-
-                
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-
-    
-        
-
-    
     
 </div>
 
@@ -455,7 +408,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="喵喵玄的blog" height="28">
+                    <img src="/images/logo.svg" alt="git checkout/reset/revert/clean 区别" height="28">
                 
                 </a>
                 <p class="is-size-7">

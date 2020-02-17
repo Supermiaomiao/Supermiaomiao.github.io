@@ -18,7 +18,7 @@
 <meta property="og:description" content="为什么会有异步JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。 但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
-<meta property="og:updated_time" content="2020-01-29T14:43:57.896Z">
+<meta property="og:updated_time" content="2020-02-17T11:40:56.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="异步和Promise执行过程图解">
 <meta name="twitter:description" content="为什么会有异步JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。 但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实">
@@ -36,7 +36,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow-night.css">
 
 
     
@@ -150,7 +150,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    16 分钟 读完 (大约 2383 个字)
+                    16 分钟 读完 (大约 2384 个字)
                 </span>
                 
                 
@@ -173,14 +173,14 @@
 <p>console - console<br>sockets<br>Network request - xhr、fetch<br>HTML DOM - Document<br>Timer - setTimeout<br>localStorage - localStorage<br>IndexedDB</p>
 <p>PS. 虽然这些功能很常用, 但知道了这件事, 我才明白了为什么说 node.js 是可以脱离浏览器环境执行的语言。</p>
 <h2 id="Callback-Queue-和-event-loop"><a href="#Callback-Queue-和-event-loop" class="headerlink" title="Callback Queue 和 event loop"></a>Callback Queue 和 event loop</h2><h3 id="Callback-Queue"><a href="#Callback-Queue" class="headerlink" title="Callback Queue"></a>Callback Queue</h3><h4 id="示例和说明1"><a href="#示例和说明1" class="headerlink" title="示例和说明1"></a>示例和说明1</h4><p>先通过下面一段定时器代码来说明一下异步执行的过程。</p>
-<figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>) &#125;</span><br><span class="line"></span><br><span class="line">setTimeout(printHello,<span class="hljs-number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>) &#125;</span><br><span class="line"></span><br><span class="line">setTimeout(printHello,<span class="hljs-number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>第一行在 global memory 中定义了一个名为 printHello 的函数。</p>
 <p>执行到第二行时, JS 做的是调用一下浏览器里的定时器功能, 调用后<strong>不需要等到 1000ms 结束</strong>, JS 已经完成了呼叫浏览器帮忙计时的任务, 直接去往下一行了。这里浏览器里的 printHello 是一个引用, 而不是复制了一份代码。<br>与此同时, 浏览器的定时器开始计时, 看是否到了 1000ms, 这和 JS 代码执行是分开独立的。</p>
 <p>JS继续执行第三行,  在 console 里打印 “Me first!”, 此时常规的 JS 代码已经执行完成, 时间可能过去了 1ms 还不到。<br>但是浏览器仍在在后台“滴滴答答”地执行计时。</p>
 <p>到了 1000ms 时, 计时结束, printHello 调头回到 JS 的执行环境, 并被放回 JS 的<strong>Callback Queue 回调队列</strong>中, 这个队列并不做执行的工作, 和 Call Stack 也是相互独立的。<br>由于此时 global 中的代码也都执行完了(也就是所有 JS 代码都按顺序执行完了), printHello 从 Callback Queue 出队, 进入 JS 函数调用栈, 执行。</p>
 <h4 id="示例和说明2"><a href="#示例和说明2" class="headerlink" title="示例和说明2"></a>示例和说明2</h4><p>继续看一个例子。现在把上面的定时器时间改为 0ms, 并增加一个常规的 JS 函数, 并假设这个函数需要 1s 的执行时间。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function printHello()&#123; console.log(&quot;Hello&quot;) &#125;</span><br><span class="line">function blockFor1Sec()&#123; // 假设这个函数执行需要 1000ms &#125;</span><br><span class="line"></span><br><span class="line">setTimeout(printHello,0)</span><br><span class="line"></span><br><span class="line">blockFor1Sec()</span><br><span class="line"></span><br><span class="line">console.log(&quot;Me first!&quot;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>) &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">blockFor1Sec</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-comment">// 假设这个函数执行需要 1000ms &#125;</span></span><br><span class="line"></span><br><span class="line">setTimeout(printHello,<span class="hljs-number">0</span>)</span><br><span class="line"></span><br><span class="line">blockFor1Sec()</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>打印出来的顺序如下, 虽然定时器设置的是 0s, 仍在最后打印出来<br><img src="https://i.loli.net/2020/01/26/adeZblInh5ROQ36.png" alt="print_async_exp.png"></p>
 <p>这是因为即使计时时间是 0ms, 0ms结束时, printHello 进入的是 Callback Queue, JS 会优先执行完 Call Stack 中的函数, 再将 Callback Queue 中的函数挪到 Call Stack 中执行。</p>
@@ -200,7 +200,7 @@
 <p>3.onRejection: 默认是一个空数组。.catch() 中要执行的函数会 push 到这个数组中。</p>
 <p>会返回 Promise 对象的内置函数可以在 MDN 上查到。</p>
 <h3 id="Microtask-Queue"><a href="#Microtask-Queue" class="headerlink" title="Microtask Queue"></a>Microtask Queue</h3><p>Promise 对象 .then() 方法中的回调函数在返回值更新后会进入微任务队列, 它和前面说的回调队列是独立的, 并且里面的函数执行优先级高于回调队列。微任务队列中的函数同样是先进先出。</p>
-<h3 id="执行过程示例"><a href="#执行过程示例" class="headerlink" title="执行过程示例"></a>执行过程示例</h3><h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight javascript hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">display</span>(<span class="hljs-params">data</span>)</span>&#123;<span class="hljs-built_in">console</span>.log(data)&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>)&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">blockFor300ms</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-comment">// 假设这个函数执行需要 300ms &#125;</span></span><br><span class="line"></span><br><span class="line">setTimeout(printHello, <span class="hljs-number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> futureData = fetch(<span class="hljs-string">'https://twitter.com/will/tweets/1'</span>)</span><br><span class="line">futureData.then(display)</span><br><span class="line"></span><br><span class="line">blockFor300ms()</span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 输出顺序</span></span><br><span class="line"><span class="hljs-comment">// Me first!</span></span><br><span class="line"><span class="hljs-comment">// data 的值</span></span><br><span class="line"><span class="hljs-comment">// Hello</span></span><br></pre></td></tr></table></figure>
+<h3 id="执行过程示例"><a href="#执行过程示例" class="headerlink" title="执行过程示例"></a>执行过程示例</h3><h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">display</span>(<span class="hljs-params">data</span>)</span>&#123;<span class="hljs-built_in">console</span>.log(data)&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>)&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">blockFor300ms</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-comment">// 假设这个函数执行需要 300ms &#125;</span></span><br><span class="line"></span><br><span class="line">setTimeout(printHello, <span class="hljs-number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> futureData = fetch(<span class="hljs-string">'https://twitter.com/will/tweets/1'</span>)</span><br><span class="line">futureData.then(display)</span><br><span class="line"></span><br><span class="line">blockFor300ms()</span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 输出顺序</span></span><br><span class="line"><span class="hljs-comment">// Me first!</span></span><br><span class="line"><span class="hljs-comment">// data 的值</span></span><br><span class="line"><span class="hljs-comment">// Hello</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h4><p>从3个函数定义后开始, 上述代码执行过程如下:</p>
 <p><code>0ms</code> 触发浏览器的定时器功能计时 0 ms, 0ms 计时完成, printHello 进入 Callback 队列<br><img src="https://i.loli.net/2020/01/29/2WFXba1xmw6nS8G.png" alt="4pms0.png"></p>
@@ -271,6 +271,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/17/git-checkout-reset-revert-clean-区别/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">git checkout/reset/revert/clean 区别</span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -350,7 +357,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        2
+                        3
                     </p>
                 </div>
             </div>
@@ -360,7 +367,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        1
+                        2
                     </p>
                 </div>
             </div>
@@ -370,7 +377,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        0
+                        1
                     </p>
                 </div>
             </div>
