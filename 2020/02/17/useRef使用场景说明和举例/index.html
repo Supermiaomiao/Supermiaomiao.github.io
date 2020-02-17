@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>git checkout/reset/revert/clean 区别 - 喵喵玄的blog</title>
+<title>useRef使用场景说明和举例 - 喵喵玄的blog</title>
 
 
-    <meta name="description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
+    <meta name="description" content="使用场景 用于获取并存放组件的 dom 节点, 以便直接对 dom 节点进行原生的事件操作，如果监听事件或进行大小测量。 利用 useRef 解决由于 hooks 函数式组件产生闭包时无法获取最新 state 的问题。 存放想要持久化( instant )的数据, 该数据不和 react 组件树的渲染绑定。该数据可以是任何类型，数字、数组、对象、函数，都可以。  示例代码如下">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git checkout&#x2F;reset&#x2F;revert&#x2F;clean 区别">
-<meta property="og:url" content="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/index.html">
+<meta property="og:title" content="useRef使用场景说明和举例">
+<meta property="og:url" content="http://miaomiaoxuan.cn/2020/02/17/useRef使用场景说明和举例/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
-<meta property="og:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
+<meta property="og:description" content="使用场景 用于获取并存放组件的 dom 节点, 以便直接对 dom 节点进行原生的事件操作，如果监听事件或进行大小测量。 利用 useRef 解决由于 hooks 函数式组件产生闭包时无法获取最新 state 的问题。 存放想要持久化( instant )的数据, 该数据不和 react 组件树的渲染绑定。该数据可以是任何类型，数字、数组、对象、函数，都可以。  示例代码如下">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
-<meta property="og:updated_time" content="2020-02-17T13:39:13.303Z">
+<meta property="og:updated_time" content="2020-02-17T13:47:56.742Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git checkout&#x2F;reset&#x2F;revert&#x2F;clean 区别">
-<meta name="twitter:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
+<meta name="twitter:title" content="useRef使用场景说明和举例">
+<meta name="twitter:description" content="使用场景 用于获取并存放组件的 dom 节点, 以便直接对 dom 节点进行原生的事件操作，如果监听事件或进行大小测量。 利用 useRef 解决由于 hooks 函数式组件产生闭包时无法获取最新 state 的问题。 存放想要持久化( instant )的数据, 该数据不和 react 组件树的渲染绑定。该数据可以是任何类型，数字、数组、对象、函数，都可以。  示例代码如下">
 <meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 
 
@@ -80,7 +80,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/logo.svg" alt="git checkout/reset/revert/clean 区别" height="28">
+                <img src="/images/logo.svg" alt="useRef使用场景说明和举例" height="28">
             
             </a>
         </div>
@@ -140,17 +140,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-17T11:17:27.000Z">2020-02-17</time>
+                <time class="level-item has-text-grey" datetime="2020-02-17T13:30:22.000Z">2020-02-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/git/">git</a>
+                <a class="has-link-grey -link" href="/categories/React/">React</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 512 个字)
+                    5 分钟 读完 (大约 708 个字)
                 </span>
                 
                 
@@ -159,36 +159,39 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                git checkout/reset/revert/clean 区别
+                useRef使用场景说明和举例
             
         </h1>
         <div class="content">
-            <p>这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？</p>
+            <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
+<li>用于获取并存放组件的 dom 节点, 以便直接对 dom 节点进行原生的事件操作，如果监听事件或进行大小测量。</li>
+<li>利用 useRef 解决由于 hooks 函数式组件产生闭包时无法获取最新 state 的问题。</li>
+<li>存放想要持久化( instant )的数据, 该数据不和 react 组件树的渲染绑定。该数据可以是任何类型，数字、数组、对象、函数，都可以。</li>
+</ol>
+<p>示例代码如下</p>
 <a id="more"></a>
 
-<h3 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h3><p>同时恢复 working area 和 stage area, 参数是否跟上文件名时表现不一致。</p>
-<p><strong>CHECKOUT BRANCH</strong><br>1.改变 HEAD 的指向到指定 branch<br>2.Copy the commit snapshot to the staging area<br>3.Update the working area with the branch contents </p>
-<p><img src="https://i.loli.net/2020/02/17/7I25Awg4qHLGh6z.png" alt="git_checkout_0.png"></p>
-<p><strong>CHECKOUT  - - <file></file></strong><br>1.将当前 staging area 的文件覆盖到 working area。</p>
-<p><img src="https://i.loli.net/2020/02/17/rpCQVaW7zPjFeyk.png" alt="git_checkout_1.png"></p>
-<p><strong>CHECKOUT <commit> - - FILE</commit></strong><br>从指定的提交恢复文件, 也可以恢复删除的文件, 只要指定删除文件的那个提交的父提交即可<br>1.从指定提交恢复对应文件到 staging area<br>2.再从 staging area 恢复对应文件到 working area</p>
-<p><img src="https://i.loli.net/2020/02/17/qdZ3f2irzRwCKbm.png" alt="git_checkout_2.png"></p>
-<h3 id="git-clean"><a href="#git-clean" class="headerlink" title="git clean"></a>git clean</h3><p>删除 working area 未提交到 staging area 的文件<br>使用 –dry-run 查看会删除的文件, 使用 -f 执行删除, 使用 -d 清空文件夹</p>
-<h3 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h3><p>根据后面所跟参数的不同有不一致的表现</p>
-<p><strong>RESET <commit></commit></strong><br>根据 flag 的不同有如下表现<br>—soft = 1<br>—mix = 1 &amp; 2 默认是 mix<br>—hard = 1 &amp; 2 &amp; 3<br>1.<del>移动 HEAD 和 branch</del> 到指定的提交<commit>, 会改变提交历史<br>2.重置 staging area 的文件和指定提交一致<br>3.重置 working area 的文件和指定提交一致</commit></p>
-<p><strong>GIT RESET — <file></file></strong><br>不移动 HEAD, 将 HEAD 所指分支的对应文件覆盖到 staging area<br><img src="https://i.loli.net/2020/02/17/FqVNfKHM6tv4gXl.png" alt="git_reset_3.png"></p>
-<p><strong>GIT RESET  <commit> — <file></file></commit></strong><br>1.不移动 HEAD, 将指定提交的对应文件覆盖到 staging area</p>
-<p><strong>撤销 git reset</strong><br>git reset ORIG_HEAD<br>git 会将重置之前的  HEAD 存在 ORIG_HEAD 中, 执行 git reset ORIG_HEAD  可以回到(意外执行想要撤销的) git reset - 之前的状态</p>
-<h3 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert "></a>git revert <commit></commit></h3><p>更安全的 reset。直接取消对应提交的所有变更, 产生一个新的 commit, 不会改变变更历史</p>
-<p><img src="https://i.loli.net/2020/02/17/3buqIojUY6wH29g.png" alt="git_reset_4.png"></p>
-<h4 id="参考资料及图片来源"><a href="#参考资料及图片来源" class="headerlink" title="参考资料及图片来源"></a>参考资料及图片来源</h4><p><a href="https://frontendmasters.com/courses/git-in-depth" target="_blank" rel="noopener">git-in-depth</a> Nina</p>
+<h3 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h3><h4 id="获取-dom-节点"><a href="#获取-dom-节点" class="headerlink" title="获取 dom 节点"></a>获取 dom 节点</h4><p>React 的典型用法是更改 props 来更新UI，但有些情况如触发滚动时回调、获取元素大小等，需要直接获取并存储组件的 dom 节点的引用, 以便对其直接进行操作。</p>
+<p>使用 useRef 存放并打印出的 dom 节点如图<br><img src="https://i.loli.net/2020/01/13/xWynNfXJiUFCrRO.gif" alt="ref_focus.gif"></p>
+<p>示例代码如下</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useRef &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">InputFocus</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">const</span> inputRef = useRef()</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> &lt;div&gt;</span><br><span class="line">        &lt;input name="input" ref=&#123;inputRef&#125;&gt;&lt;/input&gt;</span><br><span class="line">        &lt;button onClick=&#123;() =&gt; &#123;</span><br><span class="line">				// 通过 .current 拿到当前 dom 元素</span><br><span class="line">				// 可使用原生 dom 事件</span><br><span class="line">            inputRef.current.focus()</span><br><span class="line">            console.log('ref', inputRef.current)</span><br><span class="line">        &#125;&#125;&gt;</span><br><span class="line">            focus</span><br><span class="line">        &lt;/button&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="解决使用-hooks-时由于闭包无法获取最新-state-的问题"><a href="#解决使用-hooks-时由于闭包无法获取最新-state-的问题" class="headerlink" title="解决使用 hooks 时由于闭包无法获取最新 state 的问题"></a>解决使用 hooks 时由于闭包无法获取最新 state 的问题</h4><p>用 useRef 解决闭包导致无法获取最新 state 的问题。会出现这样的问题是由于 hooks 组件本质上是一个函数, 不像 class 组件由于可以直接获取到实例变量从而获取到准确的最新值。</p>
+<p>下图为在 setTimeout 中进行弹窗并显示 state 和 ref.current 的值, 可以看到 state 的数字由于闭包拿到的是上一个版本的 state, 而 ref 的值更新了。</p>
+<p><img src="https://i.loli.net/2020/01/19/yq812ieThbCLZo9.gif" alt="ref_solve_closure.gif"></p>
+<p>示例代码如下</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useState, useEffect, useRef &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> RefComponent = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> &#123;</span><br><span class="line">	  <span class="hljs-comment">// 使用 useState 存放和改变展示的 number</span></span><br><span class="line">    <span class="hljs-keyword">const</span> [stateNumber, setStateNumber] = useState(<span class="hljs-number">0</span>)</span><br><span class="line">	  <span class="hljs-comment">// 使用 useRef 生成一个独立的 ref 对象</span></span><br><span class="line">	  <span class="hljs-comment">// 在它的 current 属性单独存放一个展示的 number, 初始值为 0</span></span><br><span class="line">    <span class="hljs-keyword">const</span> numRef = useRef(<span class="hljs-number">0</span>)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">incrementAndDelayLogging</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">		  <span class="hljs-comment">// 点击按钮 stateNumber + 1</span></span><br><span class="line">        setStateNumber(stateNumber + <span class="hljs-number">1</span>)</span><br><span class="line">		  <span class="hljs-comment">// 同时 ref 对象的 current 属性值也 + 1</span></span><br><span class="line">        numRef.current++</span><br><span class="line">		  <span class="hljs-comment">// 定时器函数中产生了闭包, 这里 stateNumber 的是组件更新前的 stateNumber 对象, 所以值一直会滞后 1</span></span><br><span class="line">        setTimeout(</span><br><span class="line">            () =&gt; alert(<span class="hljs-string">`state: <span class="hljs-subst">$&#123;stateNumber&#125;</span> | ref: <span class="hljs-subst">$&#123;numRef.current&#125;</span>`</span>),</span><br><span class="line">            <span class="hljs-number">1000</span></span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">	  <span class="hljs-comment">// 直接渲染的组件是正常情况, 可以获取到最新的 state,</span></span><br><span class="line">	  <span class="hljs-comment">// 所以 ref.current 和 state 存储的值显示一致</span></span><br><span class="line">    <span class="hljs-keyword">return</span> (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">            &lt;h1&gt;solving closure by useRef&lt;<span class="hljs-regexp">/h1&gt;</span></span><br><span class="line"><span class="hljs-regexp">            &lt;button onClick=&#123;incrementAndDelayLogging&#125;&gt;alert in setTimeout&lt;/</span>button&gt;</span><br><span class="line">            &lt;h4&gt;state: &#123;stateNumber&#125;&lt;<span class="hljs-regexp">/h4&gt;</span></span><br><span class="line"><span class="hljs-regexp">            &lt;h4&gt;ref: &#123;numRef.current&#125;&lt;/</span>h4&gt;</span><br><span class="line">        &lt;<span class="hljs-regexp">/div&gt;</span></span><br><span class="line"><span class="hljs-regexp">    )</span></span><br><span class="line"><span class="hljs-regexp">&#125;</span></span><br><span class="line"><span class="hljs-regexp"></span></span><br><span class="line"><span class="hljs-regexp">export default RefComponent</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="其他场景下存放任何想要存的数据"><a href="#其他场景下存放任何想要存的数据" class="headerlink" title="其他场景下存放任何想要存的数据"></a>其他场景下存放任何想要存的数据</h4><p>可以在任何我们需要的时候更新 ref.current , <strong>并且不会由于它的更新造成 rerender</strong>, 所以在下例中可以用它来计算组件更新次数。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> React, &#123; useRef &#125; <span class="hljs-keyword">from</span> <span class="hljs-string">'React'</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> RenderCount() &#123;</span><br><span class="line">	<span class="hljs-keyword">const</span> renders = useRef(<span class="hljs-number">0</span>)</span><br><span class="line">	<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'renders:'</span>: renders.current++)	<span class="hljs-comment">// 组件每次渲染更新次数</span></span><br><span class="line">	<span class="hljs-keyword">return</span> &lt;div&gt;Hello&lt;/div&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
         </div>
          
                 <ul class="post-copyright">
-                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/">git checkout/reset/revert/clean 区别</a></li>
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/useRef使用场景说明和举例/">useRef使用场景说明和举例</a></li>
                     <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
-                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/">http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/</a></li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/useRef使用场景说明和举例/">http://miaomiaoxuan.cn/2020/02/17/useRef使用场景说明和举例/</a></li>
                     <li><strong>发布时间：</strong>2020-02-17</li>
                     <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
                     </li>
@@ -236,17 +239,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/17/useRef使用场景说明和举例/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">useRef使用场景说明和举例</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/29/异步和Promise执行过程图解/">
-                <span class="level-item">异步和Promise执行过程图解</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/17/git-checkout-reset-revert-clean-区别/">
+                <span class="level-item">git checkout/reset/revert/clean 区别</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -366,25 +362,25 @@
                 目录
             </h3>
             <ul class="menu-list"><li>
-        <a class="is-flex" href="#git-checkout">
+        <a class="is-flex" href="#使用场景">
         <span class="has-mr-6">1</span>
-        <span>git checkout</span>
+        <span>使用场景</span>
         </a></li><li>
-        <a class="is-flex" href="#git-clean">
+        <a class="is-flex" href="#用法">
         <span class="has-mr-6">2</span>
-        <span>git clean</span>
-        </a></li><li>
-        <a class="is-flex" href="#git-reset">
-        <span class="has-mr-6">3</span>
-        <span>git reset</span>
-        </a></li><li>
-        <a class="is-flex" href="#git-revert">
-        <span class="has-mr-6">4</span>
-        <span>git revert </span>
+        <span>用法</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#参考资料及图片来源">
-        <span class="has-mr-6">4.1</span>
-        <span>参考资料及图片来源</span>
+        <a class="is-flex" href="#获取-dom-节点">
+        <span class="has-mr-6">2.1</span>
+        <span>获取 dom 节点</span>
+        </a></li><li>
+        <a class="is-flex" href="#解决使用-hooks-时由于闭包无法获取最新-state-的问题">
+        <span class="has-mr-6">2.2</span>
+        <span>解决使用 hooks 时由于闭包无法获取最新 state 的问题</span>
+        </a></li><li>
+        <a class="is-flex" href="#其他场景下存放任何想要存的数据">
+        <span class="has-mr-6">2.3</span>
+        <span>其他场景下存放任何想要存的数据</span>
         </a></li></ul></li></ul>
         </div>
     </div>
@@ -409,7 +405,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/logo.svg" alt="git checkout/reset/revert/clean 区别" height="28">
+                    <img src="/images/logo.svg" alt="useRef使用场景说明和举例" height="28">
                 
                 </a>
                 <p class="is-size-7">
