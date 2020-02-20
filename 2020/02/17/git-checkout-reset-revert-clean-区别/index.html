@@ -18,7 +18,7 @@
 <meta property="og:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
-<meta property="og:updated_time" content="2020-02-17T13:39:13.303Z">
+<meta property="og:updated_time" content="2020-02-20T03:16:04.276Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="git checkout&#x2F;reset&#x2F;revert&#x2F;clean 区别">
 <meta name="twitter:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
@@ -150,7 +150,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 512 个字)
+                    4 分钟 读完 (大约 535 个字)
                 </span>
                 
                 
@@ -166,18 +166,18 @@
             <p>这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？</p>
 <a id="more"></a>
 
-<h3 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h3><p>同时恢复 working area 和 stage area, 参数是否跟上文件名时表现不一致。</p>
-<p><strong>CHECKOUT BRANCH</strong><br>1.改变 HEAD 的指向到指定 branch<br>2.Copy the commit snapshot to the staging area<br>3.Update the working area with the branch contents </p>
+<h3 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h3><p>同时恢复工作区 和 暂存区, 参数是否跟上文件名时表现不一致。</p>
+<p><strong>CHECKOUT BRANCH</strong><br>1.改变 HEAD 的指向到指定 branch<br>2.把提交时的代码复制到暂存区(staging area)<br>3.更新工作区(working area)的内容</p>
 <p><img src="https://i.loli.net/2020/02/17/7I25Awg4qHLGh6z.png" alt="git_checkout_0.png"></p>
-<p><strong>CHECKOUT  - - <file></file></strong><br>1.将当前 staging area 的文件覆盖到 working area。</p>
+<p><strong>CHECKOUT  - - <file></file></strong><br>1.将当前 暂存区 的文件覆盖到工作区。</p>
 <p><img src="https://i.loli.net/2020/02/17/rpCQVaW7zPjFeyk.png" alt="git_checkout_1.png"></p>
-<p><strong>CHECKOUT <commit> - - FILE</commit></strong><br>从指定的提交恢复文件, 也可以恢复删除的文件, 只要指定删除文件的那个提交的父提交即可<br>1.从指定提交恢复对应文件到 staging area<br>2.再从 staging area 恢复对应文件到 working area</p>
+<p><strong>CHECKOUT <commit> - - FILE</commit></strong><br>从指定的提交恢复文件, 也可以恢复删除的文件, 只要指定删除文件的那个提交的父提交即可<br>1.从指定提交恢复对应文件到 暂存区<br>2.再从暂存区恢复对应文件到工作区</p>
 <p><img src="https://i.loli.net/2020/02/17/qdZ3f2irzRwCKbm.png" alt="git_checkout_2.png"></p>
-<h3 id="git-clean"><a href="#git-clean" class="headerlink" title="git clean"></a>git clean</h3><p>删除 working area 未提交到 staging area 的文件<br>使用 –dry-run 查看会删除的文件, 使用 -f 执行删除, 使用 -d 清空文件夹</p>
+<h3 id="git-clean"><a href="#git-clean" class="headerlink" title="git clean"></a>git clean</h3><p>删除工作区里未提交到暂存区的文件<br>使用 –dry-run 查看会删除的文件, 使用 -f 执行删除, 使用 -d 清空文件夹</p>
 <h3 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h3><p>根据后面所跟参数的不同有不一致的表现</p>
-<p><strong>RESET <commit></commit></strong><br>根据 flag 的不同有如下表现<br>—soft = 1<br>—mix = 1 &amp; 2 默认是 mix<br>—hard = 1 &amp; 2 &amp; 3<br>1.<del>移动 HEAD 和 branch</del> 到指定的提交<commit>, 会改变提交历史<br>2.重置 staging area 的文件和指定提交一致<br>3.重置 working area 的文件和指定提交一致</commit></p>
-<p><strong>GIT RESET — <file></file></strong><br>不移动 HEAD, 将 HEAD 所指分支的对应文件覆盖到 staging area<br><img src="https://i.loli.net/2020/02/17/FqVNfKHM6tv4gXl.png" alt="git_reset_3.png"></p>
-<p><strong>GIT RESET  <commit> — <file></file></commit></strong><br>1.不移动 HEAD, 将指定提交的对应文件覆盖到 staging area</p>
+<p><strong>RESET <commit></commit></strong><br>根据 flag 的不同有如下表现<br>—soft = 1<br>—mix = 1 &amp; 2 默认是 mix<br>—hard = 1 &amp; 2 &amp; 3<br>1.<del>移动 HEAD 和 branch</del> 到指定的提交<commit>, 会改变提交历史<br>2.重置暂存区的文件和指定提交一致<br>3.重置工作区的文件和指定提交一致</commit></p>
+<p><strong>GIT RESET — <file></file></strong><br>不移动 HEAD, 将 HEAD 所指分支的对应文件覆盖到 暂存区<br><img src="https://i.loli.net/2020/02/17/FqVNfKHM6tv4gXl.png" alt="git_reset_3.png"></p>
+<p><strong>GIT RESET  <commit> — <file></file></commit></strong><br>1.不移动 HEAD, 将指定提交的对应文件覆盖到暂存区</p>
 <p><strong>撤销 git reset</strong><br>git reset ORIG_HEAD<br>git 会将重置之前的  HEAD 存在 ORIG_HEAD 中, 执行 git reset ORIG_HEAD  可以回到(意外执行想要撤销的) git reset - 之前的状态</p>
 <h3 id="git-revert"><a href="#git-revert" class="headerlink" title="git revert "></a>git revert <commit></commit></h3><p>更安全的 reset。直接取消对应提交的所有变更, 产生一个新的 commit, 不会改变变更历史</p>
 <p><img src="https://i.loli.net/2020/02/17/3buqIojUY6wH29g.png" alt="git_reset_4.png"></p>
