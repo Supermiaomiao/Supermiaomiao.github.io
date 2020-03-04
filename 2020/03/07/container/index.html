@@ -7,21 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>git checkout/reset/revert/clean 区别 - 喵喵玄的blog</title>
+<title>container 基本原理 - 喵喵玄的blog</title>
 
 
-    <meta name="description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
+    <meta name="description" content="在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git checkout&#x2F;reset&#x2F;revert&#x2F;clean 区别">
-<meta property="og:url" content="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/index.html">
+<meta property="og:title" content="container 基本原理">
+<meta property="og:url" content="http://miaomiaoxuan.cn/2020/03/07/container/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
-<meta property="og:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
+<meta property="og:description" content="在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
-<meta property="og:updated_time" content="2020-02-20T03:35:04.663Z">
+<meta property="og:updated_time" content="2020-03-04T08:07:01.938Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git checkout&#x2F;reset&#x2F;revert&#x2F;clean 区别">
-<meta name="twitter:description" content="这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？">
+<meta name="twitter:title" content="container 基本原理">
+<meta name="twitter:description" content="在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。">
 <meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 
 
@@ -80,7 +80,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/cat_fav.svg" alt="git checkout/reset/revert/clean 区别" height="28">
+                <img src="/images/cat_fav.svg" alt="container 基本原理" height="28">
             
             </a>
         </div>
@@ -140,17 +140,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-17T11:17:27.000Z">2020-02-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/git/">git</a>
-                </div>
+                <time class="level-item has-text-grey" datetime="2020-03-07T07:51:46.000Z">2020-03-07</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 565 个字)
+                    7 分钟 读完 (大约 1069 个字)
                 </span>
                 
                 
@@ -159,37 +155,57 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                git checkout/reset/revert/clean 区别
+                container 基本原理
             
         </h1>
         <div class="content">
-            <p>这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？</p>
+            <p>在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。</p>
 <a id="more"></a>
 
-<h3 id="git-checkout"><a href="#git-checkout" class="headerlink" title="git checkout"></a>git checkout</h3><p>同时恢复工作区和暂存区, 参数是否带有文件名时表现不一致, 不带文件名时间</p>
-<h4 id="CHECKOUT-BRANCH"><a href="#CHECKOUT-BRANCH" class="headerlink" title="CHECKOUT BRANCH"></a>CHECKOUT BRANCH</h4><p>1.改变 HEAD 的指向到指定 branch<br>2.把提交时的代码复制到暂存区(staging area)<br>3.更新工作区(working area)的内容</p>
-<p><img src="https://i.loli.net/2020/02/17/7I25Awg4qHLGh6z.png" alt="git_checkout_0.png"></p>
-<h4 id="CHECKOUT-lt-FILE-gt"><a href="#CHECKOUT-lt-FILE-gt" class="headerlink" title="CHECKOUT  - - &lt;FILE&gt;"></a>CHECKOUT  - - &lt;FILE&gt;</h4><p>1.将当前 暂存区 的文件覆盖到工作区。</p>
-<p><img src="https://i.loli.net/2020/02/17/rpCQVaW7zPjFeyk.png" alt="git_checkout_1.png"></p>
-<h4 id="CHECKOUT-lt-COMMIT-gt-FILE"><a href="#CHECKOUT-lt-COMMIT-gt-FILE" class="headerlink" title="CHECKOUT &lt;COMMIT&gt; - - FILE"></a>CHECKOUT &lt;COMMIT&gt; - - FILE</h4><p>从指定的提交恢复文件, 也可以恢复删除的文件, 只要指定删除文件的那个提交的父提交即可<br>1.从指定提交恢复对应文件到暂存区<br>2.再从暂存区恢复对应文件到工作区</p>
-<p><img src="https://i.loli.net/2020/02/17/qdZ3f2irzRwCKbm.png" alt="git_checkout_2.png"></p>
-<h3 id="git-clean"><a href="#git-clean" class="headerlink" title="git clean"></a>git clean</h3><p>删除工作区里未提交到暂存区的文件<br>使用 –dry-run 查看会删除的文件, 使用 -f 执行删除, 使用 -d 清空文件夹</p>
-<h3 id="git-reset"><a href="#git-reset" class="headerlink" title="git reset"></a>git reset</h3><p>根据后面所跟参数的不同有不一致的表现</p>
-<h4 id="RESET-lt-COMMIT-gt"><a href="#RESET-lt-COMMIT-gt" class="headerlink" title="RESET &lt;COMMIT&gt;"></a>RESET &lt;COMMIT&gt;</h4><p>根据 flag 的不同有如下表现<br>—soft = 1<br>—mix = 1 &amp; 2 默认是 mix<br>—hard = 1 &amp; 2 &amp; 3<br>1.<del>移动 HEAD 和 branch</del> 到指定的提交&lt;COMMIT&gt;, 会改变提交历史<br>2.重置暂存区的文件和指定提交一致<br>3.重置工作区的文件和指定提交一致</p>
-<h4 id="GIT-RESET-—-lt-FILE-gt"><a href="#GIT-RESET-—-lt-FILE-gt" class="headerlink" title="GIT RESET — &lt;FILE&gt;"></a>GIT RESET — &lt;FILE&gt;</h4><p>不移动 HEAD, 将 HEAD 所指分支的对应文件覆盖到 暂存区<br><img src="https://i.loli.net/2020/02/17/FqVNfKHM6tv4gXl.png" alt="git_reset_3.png"></p>
-<h4 id="GIT-RESET-lt-COMMI-gt-—-lt-FILE-gt"><a href="#GIT-RESET-lt-COMMI-gt-—-lt-FILE-gt" class="headerlink" title="GIT RESET  &lt;COMMI &gt; — &lt;FILE&gt;"></a>GIT RESET  &lt;COMMI &gt; — &lt;FILE&gt;</h4><p>1.不移动 HEAD, 将指定提交的对应文件覆盖到暂存区</p>
-<h4 id="撤销-git-reset"><a href="#撤销-git-reset" class="headerlink" title="撤销 git reset"></a>撤销 git reset</h4><p>git reset ORIG_HEAD<br>git 会将重置之前的  HEAD 存在 ORIG_HEAD 中, 执行 git reset ORIG_HEAD  可以回到(意外执行想要撤销的) git reset - 之前的状态</p>
-<h3 id="git-revert-lt-commit-gt"><a href="#git-revert-lt-commit-gt" class="headerlink" title="git revert &lt;commit&gt;"></a>git revert &lt;commit&gt;</h3><p>更安全的 reset。直接取消对应提交的所有变更, 产生一个新的 commit, 不会改变变更历史</p>
-<p><img src="https://i.loli.net/2020/02/17/3buqIojUY6wH29g.png" alt="git_reset_4.png"></p>
-<h3 id="参考资料及图片来源"><a href="#参考资料及图片来源" class="headerlink" title="参考资料及图片来源"></a>参考资料及图片来源</h3><p><a href="https://frontendmasters.com/courses/git-in-depth" target="_blank" rel="noopener">git-in-depth</a> Nina</p>
+<h3 id="为什么需要-Container"><a href="#为什么需要-Container" class="headerlink" title="为什么需要 Container"></a>为什么需要 Container</h3><br>
+
+<h4 id="裸机"><a href="#裸机" class="headerlink" title="裸机"></a>裸机</h4><p>自己购买硬件服务器, 需要操心硬件安全、维修、存放空间、温度、更新等，由于需要留有余量(防止流量上升时挂掉)需要为一部分平时不会用到的容量支付费用; 代码直接运行没有任何抽象层。<br>同时好处是不需要和其他人共享存储和性能，数据更加安全。<br><br></p>
+<h4 id="虚拟机"><a href="#虚拟机" class="headerlink" title="虚拟机"></a>虚拟机</h4><p>可以在一台服务器上安装和运行多个不同的操作系统作为虚拟机 。一台机器上的虚拟机之间是独立的, 文件系统独立, 经过资源管理后一个虚拟机当机不会影响另一个。<br>相应的每个虚拟机都安装有性能上的开销。同时仍然需要自己维护硬件和软件。<br><br></p>
+<h4 id="公有云"><a href="#公有云" class="headerlink" title="公有云"></a>公有云</h4><p>相比上一种方式不需要自己购买管理硬件机器, 而是直接向服务商租用虚拟机, 按需付费。其他优势和上面一样。<br>服务商一般只提供硬件和硬件更新, 软件和网络等的更新需要自己维护。适用于没有子用户， 只在主机OS里写代码运行服务的场景。<br><br></p>
+<h4 id="Container"><a href="#Container" class="headerlink" title="Container"></a>Container</h4><p>轻量化，可以运行在同一个操作系统中。容器之间是相互独立的, 在提供了虚拟机的安全性和资源管理功能但不需要多安装和运行一个操作系统的额外开销。</p>
+<br>
+
+<h3 id="Container核心功能"><a href="#Container核心功能" class="headerlink" title="Container核心功能"></a>Container核心功能</h3><p>container 的核心是使用以下 3 个 linux 的功能来实现隔离。<br><br></p>
+<h4 id="chroot-change-root"><a href="#chroot-change-root" class="headerlink" title="chroot (change root)"></a>chroot (change root)</h4><p>chroot 解决的问题是，如果有两个用户在同一台主机的同一个操作系统里的运行进程，如何使双方无法查看和操作对方的文件。使用 chroot 命令后根目录/的挂载点会切换。</p>
+<p>下图为使用后 chroot  后的效果</p>
+<p><img src="https://i.loli.net/2020/03/04/5HxbjQz2Sh6wX89.png" alt="0_intro_chroot.png"></p>
+<br>
+
+<h4 id="NameSpace"><a href="#NameSpace" class="headerlink" title="NameSpace"></a>NameSpace</h4><p>虽然 chroot  环境可以阻止子进程之间查看对方的文件，但是使用 ps 它们仍然可以互相看到对方正在运行的进程，并进行干预。</p>
+<p><img src="https://i.loli.net/2020/03/04/wf9CJpkAQF8v213.png" alt="1_intro_namespace.png"></p>
+<p>使用命名空间可以限制一个 container 干扰其他 container 的能力。</p>
+<p>新建一个/better-root 文件， 通过 <strong>unshare</strong> 命令创建一个新的独立的命名空间，对 /better-root 进行文件和进程隔离后，<strong>子进程 /better-root 只能看到自己的进程</strong>。主机仍然可以看到所有子进程。</p>
+<p><img src="https://i.loli.net/2020/03/04/vF7IkKy6GdVsB4S.png" alt="2_intro_namespace.png"></p>
+<p>主机也仍然可以控制子进程, 比如杀掉子进程下的某个进程</p>
+<p><img src="https://i.loli.net/2020/03/04/HN5JmBbeIP426Lq.png" alt="3_intro_namespace.png"></p>
+<br>
+
+<h4 id="cGroups-controlgroups"><a href="#cGroups-controlgroups" class="headerlink" title="cGroups (controlgroups)"></a>cGroups (controlgroups)</h4><p>增加对子进程的资源限制, 防止一个进程占用资源使整个服务器宕机。<br>可以分别划分 cpu、内存、网络带宽等。</p>
+<p>创建一个新的 croups<br><img src="https://i.loli.net/2020/03/04/16axzsTZfrkOowq.png" alt="4_intro_cgroup.png"></p>
+<p>把进程加入 cgroup, 该进程及其所有的子进程都进入了这个cgroup 控制组</p>
+<p><img src="https://i.loli.net/2020/03/04/vQhraY2wc4pAPD3.png" alt="5_intro_cgroup.png"></p>
+<p>限制资源 80M 内存和 5%的 cpu 占用(多核)</p>
+<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">cgset -r cpu.cfs_period_us=100000 -r cpu.cfs_quota_us=$[ 5000 * $(getconf _NPROCESSORS_ONLN) ] sandbox</span><br><span class="line"></span><br><span class="line">cgset -r memory.limit_in_bytes=80M sandbox</span><br></pre></td></tr></table></figure>
+
+<p>运行本应占用更多资源的命令来检查资源的限制效果可以看到确实生效了</p>
+<p><img src="https://i.loli.net/2020/03/04/WtkTydEAljahI2X.png" alt="6_intro_cgroup.png"><br><img src="https://i.loli.net/2020/03/04/WmKUONQXIuAZvhY.png" alt="8_intro_cgroup.png"></p>
+<p>退出 chroot 环境再运行同样的命令对比 cpu 占用</p>
+<p><img src="https://i.loli.net/2020/03/04/XAhU5upewFjIto9.png" alt="9_intro_cgroup.png"></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过以上三个步骤相当于手工创建了一个简易的 container, 分别实现了文件隔离(chroot)、资源隔离(namespace)和资源限制(cGroups)。使用 docker 的话 docker 会为我们完成这些工作。</p>
+<h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p><a href="https://btholt.github.io/complete-intro-to-containers/" target="_blank" rel="noopener">https://btholt.github.io/complete-intro-to-containers/</a></p>
 
         </div>
          
                 <ul class="post-copyright">
-                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/">git checkout/reset/revert/clean 区别</a></li>
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/03/07/container/">container 基本原理</a></li>
                     <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
-                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/">http://miaomiaoxuan.cn/2020/02/17/git-checkout-reset-revert-clean-区别/</a></li>
-                    <li><strong>发布时间：</strong>2020-02-17</li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/03/07/container/">http://miaomiaoxuan.cn/2020/03/07/container/</a></li>
+                    <li><strong>发布时间：</strong>2020-03-07</li>
                     <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
                     </li>
                 </ul>
@@ -236,17 +252,10 @@
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
         
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/17/useRef使用场景说明和举例/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">useRef使用场景说明和举例</span>
-            </a>
-        </div>
-        
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/29/异步和Promise执行过程图解/">
-                <span class="level-item">异步和Promise执行过程图解</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/17/useRef使用场景说明和举例/">
+                <span class="level-item">useRef使用场景说明和举例</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -366,53 +375,49 @@
                 目录
             </h3>
             <ul class="menu-list"><li>
-        <a class="is-flex" href="#git-checkout">
+        <a class="is-flex" href="#为什么需要-Container">
         <span class="has-mr-6">1</span>
-        <span>git checkout</span>
+        <span>为什么需要 Container</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#CHECKOUT-BRANCH">
+        <a class="is-flex" href="#裸机">
         <span class="has-mr-6">1.1</span>
-        <span>CHECKOUT BRANCH</span>
+        <span>裸机</span>
         </a></li><li>
-        <a class="is-flex" href="#CHECKOUT-lt-FILE-gt">
+        <a class="is-flex" href="#虚拟机">
         <span class="has-mr-6">1.2</span>
-        <span>CHECKOUT  - - &lt;FILE&gt;</span>
+        <span>虚拟机</span>
         </a></li><li>
-        <a class="is-flex" href="#CHECKOUT-lt-COMMIT-gt-FILE">
+        <a class="is-flex" href="#公有云">
         <span class="has-mr-6">1.3</span>
-        <span>CHECKOUT &lt;COMMIT&gt; - - FILE</span>
+        <span>公有云</span>
+        </a></li><li>
+        <a class="is-flex" href="#Container">
+        <span class="has-mr-6">1.4</span>
+        <span>Container</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#git-clean">
+        <a class="is-flex" href="#Container核心功能">
         <span class="has-mr-6">2</span>
-        <span>git clean</span>
-        </a></li><li>
-        <a class="is-flex" href="#git-reset">
-        <span class="has-mr-6">3</span>
-        <span>git reset</span>
+        <span>Container核心功能</span>
         </a><ul class="menu-list"><li>
-        <a class="is-flex" href="#RESET-lt-COMMIT-gt">
-        <span class="has-mr-6">3.1</span>
-        <span>RESET &lt;COMMIT&gt;</span>
+        <a class="is-flex" href="#chroot-change-root">
+        <span class="has-mr-6">2.1</span>
+        <span>chroot (change root)</span>
         </a></li><li>
-        <a class="is-flex" href="#GIT-RESET-—-lt-FILE-gt">
-        <span class="has-mr-6">3.2</span>
-        <span>GIT RESET — &lt;FILE&gt;</span>
+        <a class="is-flex" href="#NameSpace">
+        <span class="has-mr-6">2.2</span>
+        <span>NameSpace</span>
         </a></li><li>
-        <a class="is-flex" href="#GIT-RESET-lt-COMMI-gt-—-lt-FILE-gt">
-        <span class="has-mr-6">3.3</span>
-        <span>GIT RESET  &lt;COMMI &gt; — &lt;FILE&gt;</span>
-        </a></li><li>
-        <a class="is-flex" href="#撤销-git-reset">
-        <span class="has-mr-6">3.4</span>
-        <span>撤销 git reset</span>
+        <a class="is-flex" href="#cGroups-controlgroups">
+        <span class="has-mr-6">2.3</span>
+        <span>cGroups (controlgroups)</span>
         </a></li></ul></li><li>
-        <a class="is-flex" href="#git-revert-lt-commit-gt">
-        <span class="has-mr-6">4</span>
-        <span>git revert &lt;commit&gt;</span>
+        <a class="is-flex" href="#总结">
+        <span class="has-mr-6">3</span>
+        <span>总结</span>
         </a></li><li>
-        <a class="is-flex" href="#参考资料及图片来源">
-        <span class="has-mr-6">5</span>
-        <span>参考资料及图片来源</span>
+        <a class="is-flex" href="#学习资料">
+        <span class="has-mr-6">4</span>
+        <span>学习资料</span>
         </a></li></ul>
         </div>
     </div>
@@ -437,7 +442,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/cat_fav.svg" alt="git checkout/reset/revert/clean 区别" height="28">
+                    <img src="/images/cat_fav.svg" alt="container 基本原理" height="28">
                 
                 </a>
                 <p class="is-size-7">
