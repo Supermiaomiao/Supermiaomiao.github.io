@@ -1,106 +1,165 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
 
-  
-  <title>container 基本原理 | 喵喵玄的blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。">
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>container 基本原理 - 喵喵玄的blog</title>
+
+
+    <meta name="description" content="在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="container 基本原理">
 <meta property="og:url" content="http://miaomiaoxuan.cn/2020/03/07/container/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
 <meta property="og:description" content="在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/5HxbjQz2Sh6wX89.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/wf9CJpkAQF8v213.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/vF7IkKy6GdVsB4S.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/HN5JmBbeIP426Lq.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/16axzsTZfrkOowq.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/vQhraY2wc4pAPD3.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/WtkTydEAljahI2X.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/WmKUONQXIuAZvhY.png">
-<meta property="og:image" content="https://i.loli.net/2020/03/04/XAhU5upewFjIto9.png">
+<meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 <meta property="og:updated_time" content="2020-03-04T08:07:01.938Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="container 基本原理">
 <meta name="twitter:description" content="在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。">
-<meta name="twitter:image" content="https://i.loli.net/2020/03/04/5HxbjQz2Sh6wX89.png">
-  
-    <link rel="alternate" href="/atom.xml" title="喵喵玄的blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
-</head>
-</html>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">喵喵玄的blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">miaomiaoxuan&#39;s blog</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://miaomiaoxuan.cn"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-container" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/03/07/container/" class="article-date">
-  <time datetime="2020-03-07T07:51:46.000Z" itemprop="datePublished">2020-03-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      container 基本原理
-    </h1>
-  
+<meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 
-      </header>
+
+
+
+
+
+
+<link rel="icon" href="/images/cat_fav.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow-night.css">
+
+
     
-      <div class="article-entry" itemprop="articleBody">
-          
-              <p>在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。</p>
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/cat_fav.svg" alt="container 基本原理" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-03-07T07:51:46.000Z">2020-03-07</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    7 分钟 读完 (大约 1069 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                container 基本原理
+            
+        </h1>
+        <div class="content">
+            <p>在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。</p>
 <a id="more"></a>
 
 <h3 id="为什么需要-Container"><a href="#为什么需要-Container" class="headerlink" title="为什么需要 Container"></a>为什么需要 Container</h3><br>
@@ -131,7 +190,7 @@
 <p>把进程加入 cgroup, 该进程及其所有的子进程都进入了这个cgroup 控制组</p>
 <p><img src="https://i.loli.net/2020/03/04/vQhraY2wc4pAPD3.png" alt="5_intro_cgroup.png"></p>
 <p>限制资源 80M 内存和 5%的 cpu 占用(多核)</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cgset -r cpu.cfs_period_us=100000 -r cpu.cfs_quota_us=$[ 5000 * $(getconf _NPROCESSORS_ONLN) ] sandbox</span><br><span class="line"></span><br><span class="line">cgset -r memory.limit_in_bytes=80M sandbox</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain hljs"><table><tr><td class="code"><pre><span class="line">cgset -r cpu.cfs_period_us=100000 -r cpu.cfs_quota_us=$[ 5000 * $(getconf _NPROCESSORS_ONLN) ] sandbox</span><br><span class="line"></span><br><span class="line">cgset -r memory.limit_in_bytes=80M sandbox</span><br></pre></td></tr></table></figure>
 
 <p>运行本应占用更多资源的命令来检查资源的限制效果可以看到确实生效了</p>
 <p><img src="https://i.loli.net/2020/03/04/WtkTydEAljahI2X.png" alt="6_intro_cgroup.png"><br><img src="https://i.loli.net/2020/03/04/WmKUONQXIuAZvhY.png" alt="8_intro_cgroup.png"></p>
@@ -140,132 +199,424 @@
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>通过以上三个步骤相当于手工创建了一个简易的 container, 分别实现了文件隔离(chroot)、资源隔离(namespace)和资源限制(cGroups)。使用 docker 的话 docker 会为我们完成这些工作。</p>
 <h3 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h3><p><a href="https://btholt.github.io/complete-intro-to-containers/" target="_blank" rel="noopener">https://btholt.github.io/complete-intro-to-containers/</a></p>
 
-          
-      </div>
-    <footer class="article-footer">
-      <a data-url="http://miaomiaoxuan.cn/2020/03/07/container/" data-id="ckb0f1sgq0000rd6ohotn6iuk" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/04/04/广告行业概念扫盲/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
+        </div>
+         
+                <ul class="post-copyright">
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/03/07/container/">container 基本原理</a></li>
+                    <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/03/07/container/">http://miaomiaoxuan.cn/2020/03/07/container/</a></li>
+                    <li><strong>发布时间：</strong>2020-03-07</li>
+                    <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+                    </li>
+                </ul>
+         
         
-          广告行业概念及指标扫盲
         
-      </div>
-    </a>
-  
-  
-    <a href="/2020/02/17/useRef使用场景说明和举例/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">useRef使用场景说明和举例</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
         
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a></li></ul>
     </div>
-  </div>
+</div>
 
 
-  
-    
 
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章有用，投喂一下作者吧👼</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alipay.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wechat.png" alt="微信"></div>
+</a>
+
+                
+        </div>
     </div>
-  </div>
+</div>
 
 
-  
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/04/04/广告行业概念扫盲/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">广告行业概念及指标扫盲</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/02/17/useRef使用场景说明和举例/">
+                <span class="level-item">useRef使用场景说明和举例</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: false,
+        app_id: 'sYkoO41iFaSSUmVXzOME2jlD-gzGzoHsz',
+        app_key: 'iny5WXdjJ7GmWd6WVN3fbblE',
+        placeholder: '有啥问题请评论'
+    });
+</script>
+
+    </div>
+</div>
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
         
-          <li>
-            <a href="/2020/05/03/进程和线程-白话版/">进程和线程(白话版)</a>
-          </li>
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/miaomiao.png" alt="Super喵喵玄">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Super喵喵玄
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        前端工程师
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>上海</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        7
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        3
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
         
-          <li>
-            <a href="/2020/04/04/广告行业概念扫盲/">广告行业概念及指标扫盲</a>
-          </li>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Supermiaomiao" target="_blank">
+                github✨</a>
+        </div>
         
-          <li>
-            <a href="/2020/03/07/container/">container 基本原理</a>
-          </li>
         
-          <li>
-            <a href="/2020/02/17/useRef使用场景说明和举例/">useRef使用场景说明和举例</a>
-          </li>
         
-          <li>
-            <a href="/2020/02/17/git-checkout-reset-revert-clean-区别/">git checkout/reset/revert/clean 区别</a>
-          </li>
-        
-      </ul>
     </div>
-  </div>
+</div>
 
-  
-</aside>
+    
         
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 Super喵喵玄<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+<div class="card widget column-left is-sticky" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么需要-Container">
+        <span class="has-mr-6">1</span>
+        <span>为什么需要 Container</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#裸机">
+        <span class="has-mr-6">1.1</span>
+        <span>裸机</span>
+        </a></li><li>
+        <a class="is-flex" href="#虚拟机">
+        <span class="has-mr-6">1.2</span>
+        <span>虚拟机</span>
+        </a></li><li>
+        <a class="is-flex" href="#公有云">
+        <span class="has-mr-6">1.3</span>
+        <span>公有云</span>
+        </a></li><li>
+        <a class="is-flex" href="#Container">
+        <span class="has-mr-6">1.4</span>
+        <span>Container</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Container核心功能">
+        <span class="has-mr-6">2</span>
+        <span>Container核心功能</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#chroot-change-root">
+        <span class="has-mr-6">2.1</span>
+        <span>chroot (change root)</span>
+        </a></li><li>
+        <a class="is-flex" href="#NameSpace">
+        <span class="has-mr-6">2.2</span>
+        <span>NameSpace</span>
+        </a></li><li>
+        <a class="is-flex" href="#cGroups-controlgroups">
+        <span class="has-mr-6">2.3</span>
+        <span>cGroups (controlgroups)</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#总结">
+        <span class="has-mr-6">3</span>
+        <span>总结</span>
+        </a></li><li>
+        <a class="is-flex" href="#学习资料">
+        <span class="has-mr-6">4</span>
+        <span>学习资料</span>
+        </a></li></ul>
+        </div>
     </div>
-  </div>
+</div>
+
+    
+    
+            <div class="column-right-shadow  ">
+        
+        </div>
+    
+</div>
+
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/cat_fav.svg" alt="container 基本原理" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Super喵喵玄&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: ''
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+<script src="/js/animation.js"></script>
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+    
+    
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+    
+    
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+<script src="/js/main.js" defer></script>
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
 </body>
 </html>

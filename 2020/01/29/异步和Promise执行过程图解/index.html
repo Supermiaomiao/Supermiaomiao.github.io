@@ -1,111 +1,169 @@
 <!DOCTYPE html>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
 
-  
-  <title>异步和Promise执行过程图解 | 喵喵玄的blog</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="为什么会有异步JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。 但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实">
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>异步和Promise执行过程图解 - 喵喵玄的blog</title>
+
+
+    <meta name="description" content="为什么会有异步JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。 但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实">
 <meta property="og:type" content="article">
 <meta property="og:title" content="异步和Promise执行过程图解">
 <meta property="og:url" content="http://miaomiaoxuan.cn/2020/01/29/异步和Promise执行过程图解/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
 <meta property="og:description" content="为什么会有异步JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。 但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://i.loli.net/2020/01/26/adeZblInh5ROQ36.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/26/pzC3HOm7GEQ4kjn.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/26/9duZvtImSPCVHTO.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/26/pzC3HOm7GEQ4kjn.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/26/rHWc6AMjLlGzY9C.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/29/2WFXba1xmw6nS8G.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/29/4Ut3uGJjcWRqDgI.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/29/Q97k1KqFTWeVpML.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/29/uLhS6qJmEpW9aAV.png">
-<meta property="og:image" content="https://i.loli.net/2020/01/29/tQqgZVoiUv7BR8d.png">
+<meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 <meta property="og:updated_time" content="2020-02-17T11:40:56.491Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="异步和Promise执行过程图解">
 <meta name="twitter:description" content="为什么会有异步JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。 但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实">
-<meta name="twitter:image" content="https://i.loli.net/2020/01/26/adeZblInh5ROQ36.png">
-  
-    <link rel="alternate" href="/atom.xml" title="喵喵玄的blog" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css">
+<meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/cat_fav.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow-night.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
 </head>
-</html>
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">喵喵玄的blog</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">miaomiaoxuan&#39;s blog</a>
-        </h2>
-      
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/cat_fav.svg" alt="异步和Promise执行过程图解" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://miaomiaoxuan.cn"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main"><article id="post-异步和Promise执行过程图解" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/01/29/异步和Promise执行过程图解/" class="article-date">
-  <time datetime="2020-01-29T14:36:29.000Z" itemprop="datePublished">2020-01-29</time>
-</a>
+</nav>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/JavaScript/">JavaScript</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
     
-    
-      <header class="article-header">
+    <div class="card-content article ">
         
-  
-    <h1 class="article-title" itemprop="name">
-      异步和Promise执行过程图解
-    </h1>
-  
-
-      </header>
-    
-      <div class="article-entry" itemprop="articleBody">
-          
-              <h3 id="为什么会有异步"><a href="#为什么会有异步" class="headerlink" title="为什么会有异步"></a>为什么会有异步</h3><p>JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。</p>
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-01-29T14:36:29.000Z">2020-01-29</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2384 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                异步和Promise执行过程图解
+            
+        </h1>
+        <div class="content">
+            <h3 id="为什么会有异步"><a href="#为什么会有异步" class="headerlink" title="为什么会有异步"></a>为什么会有异步</h3><p>JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。</p>
 <p>但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实现的, 如 Web Browser APIs（而浏览器是用 c++ 实现的相应功能）。这些功能的执行并不是在 JS 的函数调用栈中, 而是在浏览器中, 并不会阻塞 JS 继续执行后面的代码, 这就形成了异步。</p>
 <a id="more"></a>
 <p>在这样的背景下, 我们在执行诸如数据请求这类比较耗时的操作时, 和远程建立连接并取回数据的活实际是浏览器在做, 而不是 JS, 所以任务并不会放到 JS 的调用栈中, JS 仍然不受影响继续往下执行, 从而不会造成用户在等待数据返回期间页面完全不能操作的情况。</p>
@@ -115,14 +173,14 @@
 <p>console - console<br>sockets<br>Network request - xhr、fetch<br>HTML DOM - Document<br>Timer - setTimeout<br>localStorage - localStorage<br>IndexedDB</p>
 <p>PS. 虽然这些功能很常用, 但知道了这件事, 我才明白了为什么说 node.js 是可以脱离浏览器环境执行的语言。</p>
 <h2 id="Callback-Queue-和-event-loop"><a href="#Callback-Queue-和-event-loop" class="headerlink" title="Callback Queue 和 event loop"></a>Callback Queue 和 event loop</h2><h3 id="Callback-Queue"><a href="#Callback-Queue" class="headerlink" title="Callback Queue"></a>Callback Queue</h3><h4 id="示例和说明1"><a href="#示例和说明1" class="headerlink" title="示例和说明1"></a>示例和说明1</h4><p>先通过下面一段定时器代码来说明一下异步执行的过程。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printHello</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"Hello"</span>) &#125;</span><br><span class="line"></span><br><span class="line">setTimeout(printHello,<span class="number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"Me first!"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>) &#125;</span><br><span class="line"></span><br><span class="line">setTimeout(printHello,<span class="hljs-number">1000</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>第一行在 global memory 中定义了一个名为 printHello 的函数。</p>
 <p>执行到第二行时, JS 做的是调用一下浏览器里的定时器功能, 调用后<strong>不需要等到 1000ms 结束</strong>, JS 已经完成了呼叫浏览器帮忙计时的任务, 直接去往下一行了。这里浏览器里的 printHello 是一个引用, 而不是复制了一份代码。<br>与此同时, 浏览器的定时器开始计时, 看是否到了 1000ms, 这和 JS 代码执行是分开独立的。</p>
 <p>JS继续执行第三行,  在 console 里打印 “Me first!”, 此时常规的 JS 代码已经执行完成, 时间可能过去了 1ms 还不到。<br>但是浏览器仍在在后台“滴滴答答”地执行计时。</p>
 <p>到了 1000ms 时, 计时结束, printHello 调头回到 JS 的执行环境, 并被放回 JS 的<strong>Callback Queue 回调队列</strong>中, 这个队列并不做执行的工作, 和 Call Stack 也是相互独立的。<br>由于此时 global 中的代码也都执行完了(也就是所有 JS 代码都按顺序执行完了), printHello 从 Callback Queue 出队, 进入 JS 函数调用栈, 执行。</p>
 <h4 id="示例和说明2"><a href="#示例和说明2" class="headerlink" title="示例和说明2"></a>示例和说明2</h4><p>继续看一个例子。现在把上面的定时器时间改为 0ms, 并增加一个常规的 JS 函数, 并假设这个函数需要 1s 的执行时间。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printHello</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">"Hello"</span>) &#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blockFor1Sec</span>(<span class="params"></span>)</span>&#123; <span class="comment">// 假设这个函数执行需要 1000ms &#125;</span></span><br><span class="line"></span><br><span class="line">setTimeout(printHello,<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">blockFor1Sec()</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"Me first!"</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>) &#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">blockFor1Sec</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-comment">// 假设这个函数执行需要 1000ms &#125;</span></span><br><span class="line"></span><br><span class="line">setTimeout(printHello,<span class="hljs-number">0</span>)</span><br><span class="line"></span><br><span class="line">blockFor1Sec()</span><br><span class="line"></span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br></pre></td></tr></table></figure>
 
 <p>打印出来的顺序如下, 虽然定时器设置的是 0s, 仍在最后打印出来<br><img src="https://i.loli.net/2020/01/26/adeZblInh5ROQ36.png" alt="print_async_exp.png"></p>
 <p>这是因为即使计时时间是 0ms, 0ms结束时, printHello 进入的是 Callback Queue, JS 会优先执行完 Call Stack 中的函数, 再将 Callback Queue 中的函数挪到 Call Stack 中执行。</p>
@@ -142,7 +200,7 @@
 <p>3.onRejection: 默认是一个空数组。.catch() 中要执行的函数会 push 到这个数组中。</p>
 <p>会返回 Promise 对象的内置函数可以在 MDN 上查到。</p>
 <h3 id="Microtask-Queue"><a href="#Microtask-Queue" class="headerlink" title="Microtask Queue"></a>Microtask Queue</h3><p>Promise 对象 .then() 方法中的回调函数在返回值更新后会进入微任务队列, 它和前面说的回调队列是独立的, 并且里面的函数执行优先级高于回调队列。微任务队列中的函数同样是先进先出。</p>
-<h3 id="执行过程示例"><a href="#执行过程示例" class="headerlink" title="执行过程示例"></a>执行过程示例</h3><h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">display</span>(<span class="params">data</span>)</span>&#123;<span class="built_in">console</span>.log(data)&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">printHello</span>(<span class="params"></span>)</span>&#123;<span class="built_in">console</span>.log(<span class="string">"Hello"</span>)&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">blockFor300ms</span>(<span class="params"></span>)</span>&#123; <span class="comment">// 假设这个函数执行需要 300ms &#125;</span></span><br><span class="line"></span><br><span class="line">setTimeout(printHello, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> futureData = fetch(<span class="string">'https://twitter.com/will/tweets/1'</span>)</span><br><span class="line">futureData.then(display)</span><br><span class="line"></span><br><span class="line">blockFor300ms()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"Me first!"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出顺序</span></span><br><span class="line"><span class="comment">// Me first!</span></span><br><span class="line"><span class="comment">// data 的值</span></span><br><span class="line"><span class="comment">// Hello</span></span><br></pre></td></tr></table></figure>
+<h3 id="执行过程示例"><a href="#执行过程示例" class="headerlink" title="执行过程示例"></a>执行过程示例</h3><h4 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h4><figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">display</span>(<span class="hljs-params">data</span>)</span>&#123;<span class="hljs-built_in">console</span>.log(data)&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">printHello</span>(<span class="hljs-params"></span>)</span>&#123;<span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Hello"</span>)&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">blockFor300ms</span>(<span class="hljs-params"></span>)</span>&#123; <span class="hljs-comment">// 假设这个函数执行需要 300ms &#125;</span></span><br><span class="line"></span><br><span class="line">setTimeout(printHello, <span class="hljs-number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> futureData = fetch(<span class="hljs-string">'https://twitter.com/will/tweets/1'</span>)</span><br><span class="line">futureData.then(display)</span><br><span class="line"></span><br><span class="line">blockFor300ms()</span><br><span class="line"><span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Me first!"</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 输出顺序</span></span><br><span class="line"><span class="hljs-comment">// Me first!</span></span><br><span class="line"><span class="hljs-comment">// data 的值</span></span><br><span class="line"><span class="hljs-comment">// Hello</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="执行过程"><a href="#执行过程" class="headerlink" title="执行过程"></a>执行过程</h4><p>从3个函数定义后开始, 上述代码执行过程如下:</p>
 <p><code>0ms</code> 触发浏览器的定时器功能计时 0 ms, 0ms 计时完成, printHello 进入 Callback 队列<br><img src="https://i.loli.net/2020/01/29/2WFXba1xmw6nS8G.png" alt="4pms0.png"></p>
@@ -161,132 +219,456 @@
 <p>2.最后将 Callback Queue 中的函数移入 Call Stack 中执行</p>
 <h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><p>视频： <a href="https://frontendmasters.com/courses/javascript-hard-parts-v2/" target="_blank" rel="noopener">JavaScript: The Hard Parts, v2</a> </p>
 
-          
-      </div>
-    <footer class="article-footer">
-      <a data-url="http://miaomiaoxuan.cn/2020/01/29/异步和Promise执行过程图解/" data-id="ckb0f1shh000erd6oqqtbqb7i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2020/02/17/git-checkout-reset-revert-clean-区别/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
+        </div>
+         
+                <ul class="post-copyright">
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/01/29/异步和Promise执行过程图解/">异步和Promise执行过程图解</a></li>
+                    <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/01/29/异步和Promise执行过程图解/">http://miaomiaoxuan.cn/2020/01/29/异步和Promise执行过程图解/</a></li>
+                    <li><strong>发布时间：</strong>2020-01-29</li>
+                    <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+                    </li>
+                </ul>
+         
         
-          git checkout/reset/revert/clean 区别
         
-      </div>
-    </a>
-  
-  
-    <a href="/2020/01/13/useCallback使用场景/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">useCallback使用场景说明和举栗</div>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-</section>
         
-          <aside id="sidebar">
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">分类</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JavaScript/">JavaScript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/React/">React</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/git/">git</a></li></ul>
     </div>
-  </div>
+</div>
 
 
-  
-    
 
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">归档</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/05/">五月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">四月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/03/">三月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">二月 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">一月 2020</a></li></ul>
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章有用，投喂一下作者吧👼</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alipay.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wechat.png" alt="微信"></div>
+</a>
+
+                
+        </div>
     </div>
-  </div>
+</div>
 
 
-  
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/02/17/git-checkout-reset-revert-clean-区别/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">git checkout/reset/revert/clean 区别</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/01/13/useCallback使用场景/">
+                <span class="level-item">useCallback使用场景说明和举栗</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: false,
+        app_id: 'sYkoO41iFaSSUmVXzOME2jlD-gzGzoHsz',
+        app_key: 'iny5WXdjJ7GmWd6WVN3fbblE',
+        placeholder: '有啥问题请评论'
+    });
+</script>
+
+    </div>
+</div>
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">最新文章</h3>
-    <div class="widget">
-      <ul>
         
-          <li>
-            <a href="/2020/05/03/进程和线程-白话版/">进程和线程(白话版)</a>
-          </li>
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/miaomiao.png" alt="Super喵喵玄">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Super喵喵玄
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        前端工程师
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>上海</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        7
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        3
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
         
-          <li>
-            <a href="/2020/04/04/广告行业概念扫盲/">广告行业概念及指标扫盲</a>
-          </li>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Supermiaomiao" target="_blank">
+                github✨</a>
+        </div>
         
-          <li>
-            <a href="/2020/03/07/container/">container 基本原理</a>
-          </li>
         
-          <li>
-            <a href="/2020/02/17/useRef使用场景说明和举例/">useRef使用场景说明和举例</a>
-          </li>
         
-          <li>
-            <a href="/2020/02/17/git-checkout-reset-revert-clean-区别/">git checkout/reset/revert/clean 区别</a>
-          </li>
-        
-      </ul>
     </div>
-  </div>
+</div>
 
-  
-</aside>
+    
         
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 Super喵喵玄<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+<div class="card widget column-left is-sticky" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><ul class="menu-list"><li>
+        <a class="is-flex" href="#为什么会有异步">
+        <span class="has-mr-6">1.1</span>
+        <span>为什么会有异步</span>
+        </a></li><li>
+        <a class="is-flex" href="#异步的含义">
+        <span class="has-mr-6">1.2</span>
+        <span>异步的含义</span>
+        </a></li></ul><li>
+        <a class="is-flex" href="#区分浏览器和-JS-的世界">
+        <span class="has-mr-6">2</span>
+        <span>区分浏览器和 JS 的世界</span>
+        </a></li><li>
+        <a class="is-flex" href="#Callback-Queue-和-event-loop">
+        <span class="has-mr-6">3</span>
+        <span>Callback Queue 和 event loop</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Callback-Queue">
+        <span class="has-mr-6">3.1</span>
+        <span>Callback Queue</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#示例和说明1">
+        <span class="has-mr-6">3.1.1</span>
+        <span>示例和说明1</span>
+        </a></li><li>
+        <a class="is-flex" href="#示例和说明2">
+        <span class="has-mr-6">3.1.2</span>
+        <span>示例和说明2</span>
+        </a></li><li>
+        <a class="is-flex" href="#规则总结">
+        <span class="has-mr-6">3.1.3</span>
+        <span>规则总结</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#event-loop">
+        <span class="has-mr-6">3.2</span>
+        <span>event loop</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Promises-和-Microtask-Queue">
+        <span class="has-mr-6">4</span>
+        <span>Promises 和 Microtask Queue</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#Promise-对象">
+        <span class="has-mr-6">4.1</span>
+        <span>Promise 对象</span>
+        </a></li><li>
+        <a class="is-flex" href="#Microtask-Queue">
+        <span class="has-mr-6">4.2</span>
+        <span>Microtask Queue</span>
+        </a></li><li>
+        <a class="is-flex" href="#执行过程示例">
+        <span class="has-mr-6">4.3</span>
+        <span>执行过程示例</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#示例代码">
+        <span class="has-mr-6">4.3.1</span>
+        <span>示例代码</span>
+        </a></li><li>
+        <a class="is-flex" href="#执行过程">
+        <span class="has-mr-6">4.3.2</span>
+        <span>执行过程</span>
+        </a></li></ul></li></ul></li><li>
+        <a class="is-flex" href="#总结">
+        <span class="has-mr-6">5</span>
+        <span>总结</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#分类">
+        <span class="has-mr-6">5.1</span>
+        <span>分类</span>
+        </a></li><li>
+        <a class="is-flex" href="#执行顺序">
+        <span class="has-mr-6">5.2</span>
+        <span>执行顺序</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#学习资料">
+        <span class="has-mr-6">6</span>
+        <span>学习资料</span>
+        </a></li></ul>
+        </div>
     </div>
-  </div>
+</div>
+
+    
+    
+            <div class="column-right-shadow  ">
+        
+        </div>
+    
+</div>
+
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/cat_fav.svg" alt="异步和Promise执行过程图解" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Super喵喵玄&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
 </footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: ''
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+<script src="/js/animation.js"></script>
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+    
+    
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+    
+    
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
+<script src="/js/main.js" defer></script>
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
-
-
-
-  </div>
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
 </body>
 </html>
