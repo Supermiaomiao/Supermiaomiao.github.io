@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8" />
+
+<meta name="generator" content="Hexo 3.9.0" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+<title>function light JS 笔记 - 喵喵玄的blog</title>
+
+
+    <meta name="description" content="《你不知道的 JavaScript》作者 Kyle Simpson 新的开源书籍 《functional light JS》主要是讲函数式编程的，记录下其中一些让人印象深刻的点。  前言什么是最好的代码：最好的代码是不需要读的代码。即使只是给代码写 comment, 也应该专注于为什么要这样, 而不是这是什么。 命令式：每一步代码在做什么。声明式：将我们代码的重心放在为什么我们要这个输出，为什么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="function light JS 笔记">
+<meta property="og:url" content="http://miaomiaoxuan.cn/2020/05/29/function-light-JS-笔记/index.html">
+<meta property="og:site_name" content="喵喵玄的blog">
+<meta property="og:description" content="《你不知道的 JavaScript》作者 Kyle Simpson 新的开源书籍 《functional light JS》主要是讲函数式编程的，记录下其中一些让人印象深刻的点。  前言什么是最好的代码：最好的代码是不需要读的代码。即使只是给代码写 comment, 也应该专注于为什么要这样, 而不是这是什么。 命令式：每一步代码在做什么。声明式：将我们代码的重心放在为什么我们要这个输出，为什么">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
+<meta property="og:updated_time" content="2020-06-04T09:33:18.448Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="function light JS 笔记">
+<meta name="twitter:description" content="《你不知道的 JavaScript》作者 Kyle Simpson 新的开源书籍 《functional light JS》主要是讲函数式编程的，记录下其中一些让人印象深刻的点。  前言什么是最好的代码：最好的代码是不需要读的代码。即使只是给代码写 comment, 也应该专注于为什么要这样, 而不是这是什么。 命令式：每一步代码在做什么。声明式：将我们代码的重心放在为什么我们要这个输出，为什么">
+<meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/cat_fav.svg">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/tomorrow-night.css">
+
+
+    
+    
+<style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+
+    
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+    
+    
+    
+    
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+    
+    
+    
+    
+    
+    
+    
+    <link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/cat_fav.svg" alt="function light JS 笔记" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
+<div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-05-29T13:14:14.000Z">2020-05-29</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 分钟 读完 (大约 3740 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                function light JS 笔记
+            
+        </h1>
+        <div class="content">
+            <blockquote>
+<p>《你不知道的 JavaScript》作者 Kyle Simpson 新的开源书籍 《functional light JS》主要是讲函数式编程的，记录下其中一些让人印象深刻的点。</p>
+</blockquote>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>什么是最好的代码：最好的代码是不需要读的代码。<br>即使只是给代码写 comment, 也应该<strong>专注于为什么要这样</strong>, 而不是这是什么。</p>
+<p>命令式：每一步代码在做什么。<br>声明式：将我们代码的重心放在为什么我们要这个输出，为什么这个输出对我们有用。</p>
+<p>函数式更接近于声明式。声明式不是一个绝对的概念, 而是一个相对的概念, 你会认为什么样的代码是声明式和你自己的经验也有关。</p>
+<a id="more"></a>
+
+<h2 id="纯函数"><a href="#纯函数" class="headerlink" title="纯函数"></a>纯函数</h2><ol>
+<li><p>程序不一定是函数，程序是一系列操作，程序不一定返回结果。</p>
+</li>
+<li><p>什么是函数？<br>函数不仅接受输入, 也必须返回输出。函数的内部只能调用函数，不能调用程序。 函数是输入和输出之间的关联，要有一个描述这个关系的语义化的名字。<br>函数不会给它之外的变量赋值。</p>
+</li>
+<li><p>副作用side Effects：</p>
+</li>
+</ol>
+<ul>
+<li>I / O (console, files, etc)</li>
+<li>Database Storage</li>
+<li>Network Calls</li>
+<li>DOM</li>
+<li>Timestamps</li>
+<li>Random Number</li>
+</ul>
+<p>副作用不可能避免, 但是使用的时候应让它们<strong>尽可能看起来很明显, 让读者一目了然</strong></p>
+<ol start="4">
+<li>const</li>
+</ol>
+<p><strong>不可变的定义不仅仅是使用 const 来定义变量</strong>, 即使用 var 来定义变量, 在所有代码中变量都没有被重新定义, 这个数据也可以认为是不变的。如果一个函数里直接使用了这个变量, 在调用函数的时候认为这次调用是纯的。</p>
+<ol start="5">
+<li>纯函数的定义</li>
+</ol>
+<ul>
+<li>我们评判的是函数调用是否纯净, 而不是函数定义是否纯净</li>
+<li>纯函数的特征是, 相同的输入, 一定有相同的输出</li>
+<li>纯函数不是一个二元对立的概念, 而是开发者对它是一个纯函数的自信程度的高低</li>
+</ul>
+<ol start="6">
+<li><p>提取不纯净的部分<br>将函数中不纯净的部分提取出来成为一段单独的程序</p>
+</li>
+<li><p>包装不纯的部分</p>
+</li>
+</ol>
+<p>仅在无法改为纯函数 或 无法提取副作用部分时使用</p>
+<ul>
+<li><p>包装<br>新建一个函数把副作用函数包住</p>
+</li>
+<li><p>使用以下6步改造<br>浅 copy  存下现在的状态<br>创建合适的初始状态<br>调用 副作用程序<br>捕获新状态<br>恢复老状态<br>返回捕获的新状态</p>
+</li>
+</ul>
+<h2 id="参数适配器"><a href="#参数适配器" class="headerlink" title="参数适配器"></a>参数适配器</h2><p>大多数函数式编程的函数参数都是一元或二元的。</p>
+<h4 id="函数的参数"><a href="#函数的参数" class="headerlink" title="函数的参数"></a>函数的参数</h4><p>区分 parameters 和 arguments, parameters 是函数内容用于接收输入值的变量命名, arguments 是调用函数时的输入值。其实就是形参和实参的概念。</p>
+<p>JS 调用函数时不强制要求输入的参数数量和形参一致, <strong>多出的参数会无视</strong>, 输入的参数少于形参数量, <strong>未分配到具体值的变量值为 undefined</strong>。</p>
+<p>使用 functionName.length 可以获取函数的参数数量。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">x, y, z</span>) </span>&#123;</span><br><span class="line">	<span class="hljs-comment">// ..</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo.length	<span class="hljs-comment">// 3</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="arguments-不建议乱用"><a href="#arguments-不建议乱用" class="headerlink" title="arguments 不建议乱用"></a>arguments 不建议乱用</h4><p>使用 arguments.length 可以获得输入值的数量<br><strong>这是唯一建议直接使用内置 arguments 的场景</strong></p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">x, y, z</span>) </span>&#123;</span><br><span class="line">	<span class="hljs-built_in">console</span>.log( <span class="hljs-built_in">arguments</span>.length )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo(<span class="hljs-number">3</span>, <span class="hljs-number">4</span>)	<span class="hljs-comment">// 2</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="可变函数"><a href="#可变函数" class="headerlink" title="可变函数"></a>可变函数</h4><p>参数数量不确定的函数<br>使用 …args 作为参数, 会将剩下的没有赋值给形参的入参, 放入一个数组中</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">x,y,z,...args</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log( x, y, z, args );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foo();                  <span class="hljs-comment">// undefined undefined undefined []</span></span><br><span class="line">foo( <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span> );         <span class="hljs-comment">// 1 2 3 []</span></span><br><span class="line">foo( <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span> );      <span class="hljs-comment">// 1 2 3 [ 4 ]</span></span><br><span class="line">foo( <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span> );   <span class="hljs-comment">// 1 2 3 [ 4, 5 ]</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="命名参数"><a href="#命名参数" class="headerlink" title="命名参数"></a>命名参数</h4><p>使用单个对象参数, 实现其他语言命名参数的功能<br>用于实现通过名称传递参数调用函数, 而不依赖于位置</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"> &#123;x,y&#125; = &#123;&#125; </span>) </span>&#123;</span><br><span class="line">    <span class="hljs-built_in">console</span>.log( x, y );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 通过对象的 key 表示值对应哪个参数, 不必在 x 的位置传入 undefined</span></span><br><span class="line">foo( &#123;</span><br><span class="line">    y: <span class="hljs-number">3</span></span><br><span class="line">&#125; );                    <span class="hljs-comment">// undefined 3</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="高阶函数"><a href="#高阶函数" class="headerlink" title="高阶函数"></a>高阶函数</h4><p>定义：以函数作为输入或者返回函数的函数, 一个函数经过高阶函数的改造, 可以<strong>改变输入内部函数的参数的形式</strong></p>
+<h4 id="参数适配器类型"><a href="#参数适配器类型" class="headerlink" title="参数适配器类型"></a>参数适配器类型</h4><ul>
+<li>改变参数数量</li>
+<li>改变参数顺序</li>
+<li>展开参数</li>
+</ul>
+<h2 id="Pointfree"><a href="#Pointfree" class="headerlink" title="Pointfree"></a>Pointfree</h2><h4 id="概念和基本用法"><a href="#概念和基本用法" class="headerlink" title="概念和基本用法"></a>概念和基本用法</h4><p>含义：向一个函数传递函数时不标识它们所操作的参数。<br>什么时候可以用：入参的包装函数和返回的函数有同样的参数。</p>
+<p>基本用法</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line">getPerson(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">onPerson</span>(<span class="hljs-params">person</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> renderPerson(person);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="hljs-comment">// 等价于, 因为外层的函数和里面的函数具有相同的参数 person</span></span><br><span class="line">getPerson(renderPerson);</span><br></pre></td></tr></table></figure>
+
+<h4 id="把函数改造成-Pointfree-的风格"><a href="#把函数改造成-Pointfree-的风格" class="headerlink" title="把函数改造成 Pointfree 的风格"></a>把函数改造成 Pointfree 的风格</h4><p>有时候函数一开始不符合这个形式，可以利用 compose 包一层，再变成 pointfree。</p>
+<p>如下面的函数</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isOdd</span>(<span class="hljs-params">x</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> eq1(mod2(x));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是利用 compose 可以将函数改造成 pointfree</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">compose</span>(<span class="hljs-params">fn2, fn1</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">composed</span>(<span class="hljs-params">v</span>) </span>&#123;</span><br><span class="line">	      fn2(fn1(v));</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// v 可以不写</span></span><br><span class="line"><span class="hljs-keyword">var</span> isOdd = compose(eq1, mod2)</span><br></pre></td></tr></table></figure>
+
+<h2 id="闭包及其应用"><a href="#闭包及其应用" class="headerlink" title="闭包及其应用"></a>闭包及其应用</h2><h4 id="使用注意事项"><a href="#使用注意事项" class="headerlink" title="使用注意事项"></a>使用注意事项</h4><p>闭包不一定是纯函数, 但闭包绝对可以在函数式理论中使用。<br>这个例子中闭包<strong>记住了入参 fn</strong>, 所以 fn 不会被垃圾回收机制清除</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unary</span>(<span class="hljs-params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">one</span>(<span class="hljs-params">arg</span>) </span>&#123;</span><br><span class="line">	       <span class="hljs-keyword">return</span> fn(arg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果要在函数式编程中使用闭包，<strong>必须确认封闭住的是不会改变</strong>的值, 一旦你改变封闭住的值，就失去了纯净，可能造成不易排除的 bug。</p>
+<h4 id="延迟和立刻-lazy-and-eager"><a href="#延迟和立刻-lazy-and-eager" class="headerlink" title="延迟和立刻 lazy and eager"></a>延迟和立刻 lazy and eager</h4><ul>
+<li>延迟<br>通过把要执行的代码放到一个包装函数中并返回要延迟执行的函数, 直到返回的函数被调用再执行。适合<strong>计算开销大</strong>但<strong>需要调用它的概率比较低</strong>的功能，只在调用的时候计算。 缺点是每次调用都要计算一次。</li>
+</ul>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">repeater</span>(<span class="hljs-params">count</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">allTheAs</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">	      <span class="hljs-keyword">return</span> “”.padStart(count, “A”);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> A = repeater(<span class="hljs-number">5</span>);</span><br><span class="line"></span><br><span class="line">A();	<span class="hljs-comment">// “AAAAA”	在这行执行计算</span></span><br><span class="line">A();	<span class="hljs-comment">// “AAAAA”</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>立刻<br>计算在第 7 行执行。优点是只做一次, <strong>即使 A 被调用了 10000 次, 计算只进行一次</strong>。缺点是如果 A 从不被调用, 就做了一次不必要的计算。<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">repeater</span>(<span class="hljs-params">count</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> str = “”.padStart(count, “A”);</span><br><span class="line">	  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">allTheAs</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">	      <span class="hljs-keyword">return</span> str;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> A = repeater(<span class="hljs-number">5</span>);	<span class="hljs-comment">// 在这行执行计算</span></span><br><span class="line"></span><br><span class="line">A();	<span class="hljs-comment">// “AAAAA”	</span></span><br><span class="line">A();	<span class="hljs-comment">// “AAAAA”</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="Memoization"><a href="#Memoization" class="headerlink" title="Memoization"></a>Memoization</h4><p>希望功能只执行一次, 但不调用它的时候不执行。继承了延迟的优点, 同时避免了缺点。<br>不要过多使用 memoize, 需要考虑到额外的内存开销,  它会维持永久的的缓存。<br>memoiation 有用的场景是你要多次调用一个函数, 但调用时输入的参数总是相同。如果你推测一个函数要被调用很多次, 但<strong>每次的输入都不同, 不要用 memoization, 会占用很多内存</strong>。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">repeater</span>(<span class="hljs-params">count</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> memoize(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">allTheAs</span>(<span class="hljs-params"></span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> “”.padStart(count, “A”);</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> A = repeater(<span class="hljs-number">5</span>);	<span class="hljs-comment">// 在这行执行计算</span></span><br><span class="line"></span><br><span class="line">A();	<span class="hljs-comment">// “AAAAA”	</span></span><br><span class="line">A();	<span class="hljs-comment">// “AAAAA”</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="从一般化到特殊化"><a href="#从一般化到特殊化" class="headerlink" title="从一般化到特殊化"></a>从一般化到特殊化</h4><ul>
+<li><p>封装函数的目的<br>封装函数的意义不仅是 DRY, 还为了使代码更加语义化, 函数调用的名字可以描述它的目的, 而<strong>目的是我们想要告诉读者关键的东西</strong>。</p>
+</li>
+<li><p>函数参数的顺序<br>从左边开始最一般化到右边最特殊化。一般来说, data 更特殊, cb func 更一般化。</p>
+</li>
+</ul>
+<h4 id="特殊化函数的方法"><a href="#特殊化函数的方法" class="headerlink" title="特殊化函数的方法"></a>特殊化函数的方法</h4><ul>
+<li><p>partial application<br>partial() 方法在很多函数式编程库里都有, <strong>用来返回一个预设了一个或多个参数的特殊化函数</strong>。第一个参数是函数, 第二个参数是要预设的参数。</p>
+</li>
+<li><p>柯里化 currying<br>柯里化的意思是，一个函数本来接受 n 个参数作为参数，把它变成执行 n 次，每次执行传入 1 参数，最后得到结果。柯里化比上一种方法更受欢迎。</p>
+</li>
+</ul>
+<p>手动进行柯里化</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajax</span>(<span class="hljs-params">url</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> getData(data) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> getCB(cb)&#123;<span class="hljs-comment">/*. . .*/</span>&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">var</span> getCustomer = ajax(CUSTOMER_API);</span><br><span class="line"><span class="hljs-keyword">var</span> getCurrentUser = getCustomer(&#123; <span class="hljs-attr">id</span>: <span class="hljs-number">42</span> &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>一般不需要自己手动写，可以使用 curry 工具函数, 有两种写法。</p>
+<p>line1 是标准的柯里化, 每次调用只接受一个函数, 和 Haskel 一样;<br>但大多数函数式编程库提供的是 line3, 进行特殊化时可以传入多个参数, 好处是比较方便</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-keyword">var</span> ajax = curry(</span><br><span class="line">    <span class="hljs-number">3</span>,</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ajax</span>(<span class="hljs-params">url, data, cb</span>) </span>&#123;<span class="hljs-comment">/* . . */</span>&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 标准柯里化, 一次传入一个参数</span></span><br><span class="line">ajax(CUSTOMER_API)(&#123; <span class="hljs-attr">id</span>: <span class="hljs-number">42</span> &#125;)(renderCustomer);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 可以传入多个参数的柯里化</span></span><br><span class="line">ajax( CUSTOMER_API, &#123; <span class="hljs-attr">id</span>: <span class="hljs-number">42</span> &#125; )(renderCustomer);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>curry 和 partial 对比<br>目的一致, 都是为了特殊化函数<br>partial application 在一开始预设所有参数, 在下一次调用时接受剩下的参数<br>curring 不在一开始预设任何参数, 每次调用只接受一个参数。</p>
+</li>
+<li><p>既然 curry 更方便和常用, 什么场景下使用 partial application 更好<br>如果有一个 5 个入参的函数, 你想预设 2 个参数, 下次调用时输入另外 3 个参数, 使用 curry 除了要调用两次有点点麻烦之外, 剩下的 3 个参数输入也要调用 3 次, 而你想要获得的函数入参形式是 3 个参数一起输入。这是它仍然存在的原因。</p>
+</li>
+</ul>
+<h2 id="不可变性-IMMUTABILITY"><a href="#不可变性-IMMUTABILITY" class="headerlink" title="不可变性 IMMUTABILITY"></a>不可变性 IMMUTABILITY</h2><p>定义<br>防止数据意外变化, 只在需要时变化。</p>
+<h4 id="赋值不变性-assignment-immutability"><a href="#赋值不变性-assignment-immutability" class="headerlink" title="赋值不变性 assignment immutability"></a>赋值不变性 assignment immutability</h4><p>变量不可以被重新赋值。用 const 定义的变量不可以重新被赋值, 但是如果是 array 或 object, 相应的值仍然可被改变。</p>
+<ul>
+<li>重新思考 const<br>应该重新思考一下 const 是否那么重要。<br>假设写代码时遵循好的规范, 每个函数不超过 20 行, 那么即使不使用 const, 对变量的重新赋值也会被代码块 { } 的词法作用域限制, 在 20 行内读者也可以清楚地看到这个变量是否被重新赋值了。<br>一般在一个代码块内用 let 足矣, <strong>用 const 反而会造成困惑, 因为这个词会让读者误认为这个变量的值不会改变</strong>( java 里把这个操作从 const 改成了 final, 表示这是最后一次赋值, 而不是值永远不变 (对 java 不太熟哈哈哈，应该查证一下是否是这样？))</li>
+</ul>
+<p>那什么时候适合使用 const 呢？仅当数据天然的不可改变时，一般也就是基本数据类型。</p>
+<h4 id="值的不变性-value-immutability"><a href="#值的不变性-value-immutability" class="headerlink" title="值的不变性 value immutability"></a>值的不变性 value immutability</h4><p>我们应该更加关注值的不变性, 因为值的传递范围甚至可能到另一个程序。<strong>99% 我们遇到的问题都是值在预期之外被改变了, 而不是由于对某个变量重新赋值。</strong></p>
+<p>作为使用函数式编程风格的开发者, 应该尝试事先发现可能出现的问题, 并在它们出现前使用能够避免它们的模式。</p>
+<p><strong>Object.freeze(obj)</strong>可以使对象只读。当使用一个函数时, 如果你要传入一个你并不希望之后被改变的值, 可以用 Object.freeze() 包装一下。这样做的目的不仅是为了让值的性质变为只读, 更是为了告诉读代码的人你并不希望这个值改变。</p>
+<p>当你写一个函数, 输入是一个<strong>数组</strong>或<strong>对象</strong>, 最好假设输入的值都是不可变的, 做法是复制一个新的数组或对象, 在新的值上面做变动, 保持输入值不变。</p>
+<h4 id="不可变的数据结构-Immutable-data-structures"><a href="#不可变的数据结构-Immutable-data-structures" class="headerlink" title="不可变的数据结构 Immutable data structures"></a>不可变的数据结构 Immutable data structures</h4><ul>
+<li>含义和为什么要用<br>使用不可变数据结构来创建值会被改变的数据, 它使值的变化更可控。</li>
+</ul>
+<p>这句话的含义是, 当要改变一个数组或对象的值时, 永远不要改变它们原本的值, 而是复制一个新值来改变。</p>
+<p>但是, 如果这个值被改变很多次如1000次, 每次都进行复制的话, 复制和垃圾回收都是性能的开销。</p>
+<ul>
+<li><p>库<br>immutable-js 、 Mori</p>
+</li>
+<li><p>总结</p>
+</li>
+</ul>
+<p>如果要传入数组、对象这样的数据来调用函数, 应该用类似 Object.freeze 来注释它, 目的是告诉读者不要担心这个值不会被改变。可以封装一个工具函数如命名为 readOnly 来进行使用。</p>
+<p>如果是数据的接收方, 无论如何假设它是不可被更改的。</p>
+<h2 id="递归-Recursion"><a href="#递归-Recursion" class="headerlink" title="递归 Recursion"></a>递归 Recursion</h2><h4 id="什么限制了递归的实际使用"><a href="#什么限制了递归的实际使用" class="headerlink" title="什么限制了递归的实际使用"></a>什么限制了递归的实际使用</h4><p>栈溢出问题, 以前的电脑 RAM 只有 4k。下面的写法, 函数里调用函数的嵌套, 调用栈里可能会叠加 <strong>0 到 n</strong> 个要执行的函数。<br>也就是直到碰到了 basecase，这 n 层函数才开始一层层的返回值并出栈。</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">countVowels</span>(<span class="hljs-params">str</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">var</span> first = (isVowel(str[<span class="hljs-number">0</span>]) ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span> (str.length &lt;= <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> first;</span><br><span class="line">    <span class="hljs-keyword">return</span> first + countVowels(str.slice(<span class="hljs-number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">countVowels(“These secrets <span class="hljs-keyword">of</span> the inner tribunal <span class="hljs-keyword">of</span> the conscience are known only to the tomb”);</span><br></pre></td></tr></table></figure>
+
+<p>ps. 一般现代浏览器允许 20000 个栈叠加。</p>
+<h4 id="尾递归优化-tail-call"><a href="#尾递归优化-tail-call" class="headerlink" title="尾递归优化 tail call"></a>尾递归优化 tail call</h4><p>优化内存使用, 释放不必要的内存使用, 只会有 <strong>0 到 1</strong> 内存使用; 并不优化运行速度。<br>主要原理就是相比上面的叠加了 n 次再返回, 变成每一层递归都返回值。</p>
+<ul>
+<li>PTC proper tail call<br>解决内存优化到只使用 0-1 的方法, 要素如下:<br>一是使用 严格模式, 在文件最上方声明 “use strict”<br>二是 return 关键字 加 单独的函数调用, 并且在之后没有需要被计算的东西。如果三元表达式的某个分支是一个单独的函数调用, 也符合尾调用。</li>
+</ul>
+<p>将上面的 countVowels(str) 改为 PTC 形式</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line">“use strict”</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 需要新增一个参数, 用于记下上一次算出来的值进行累加</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">countVowels</span>(<span class="hljs-params">count, str</span>) </span>&#123;</span><br><span class="line">    count += (isVowel(str[<span class="hljs-number">0</span>]) ? <span class="hljs-number">1</span> : <span class="hljs-number">0</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span> (str.length &lt;= <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> count;</span><br><span class="line">	  <span class="hljs-comment">// 这里直接返回一个函数调用</span></span><br><span class="line">    <span class="hljs-keyword">return</span> countVowels(count, str.slice(<span class="hljs-number">1</span>));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">countVowels(</span><br><span class="line">    <span class="hljs-number">0</span>,</span><br><span class="line">    “These secrets <span class="hljs-keyword">of</span> the inner tribunal <span class="hljs-keyword">of</span> the conscience are known only to the tomb”</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h4 id="Trampoline"><a href="#Trampoline" class="headerlink" title="Trampoline"></a>Trampoline</h4><p>这是 kyle <strong>推荐</strong>用来解决递归层数多浏览器报栈溢出问题的方法。</p>
+<p>trampoline 实现</p>
+<figure class="highlight javascript hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trampoline</span>(<span class="hljs-params">fn</span>) </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">trampolined</span>(<span class="hljs-params">…args</span>) </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">var</span> result = fn(…args);</span><br><span class="line">        <span class="hljs-keyword">while</span> (<span class="hljs-keyword">typeof</span> result == “<span class="hljs-function"><span class="hljs-keyword">function</span>”) </span>&#123;</span><br><span class="line">		      result = result();</span><br><span class="line">		  &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一般的库中都提供这个工具, 使用时只要把递归函数传入即可。</p>
+<h2 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h2><p><a href="https://github.com/getify/Functional-Light-JS" target="_blank" rel="noopener">https://github.com/getify/Functional-Light-JS</a><br><a href="https://frontendmasters.com/courses/functional-javascript-v3/" target="_blank" rel="noopener">https://frontendmasters.com/courses/functional-javascript-v3/</a></p>
+
+        </div>
+         
+                <ul class="post-copyright">
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/05/29/function-light-JS-笔记/">function light JS 笔记</a></li>
+                    <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/05/29/function-light-JS-笔记/">http://miaomiaoxuan.cn/2020/05/29/function-light-JS-笔记/</a></li>
+                    <li><strong>发布时间：</strong>2020-05-29</li>
+                    <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+                    </li>
+                </ul>
+         
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章有用，投喂一下作者吧👼</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alipay.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wechat.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/05/03/进程和线程-白话版/">
+                <span class="level-item">进程和线程(白话版)</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: false,
+        app_id: 'sYkoO41iFaSSUmVXzOME2jlD-gzGzoHsz',
+        app_key: 'iny5WXdjJ7GmWd6WVN3fbblE',
+        placeholder: '有啥问题请评论'
+    });
+</script>
+
+    </div>
+</div>
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered" style="flex-shrink: 1">
+                <div>
+                    
+                    <figure class="image is-128x128 has-mb-6">
+                        <img class="is-rounded" src="/images/miaomiao.png" alt="Super喵喵玄">
+                    </figure>
+                    
+                    <p class="is-size-4 is-block">
+                        Super喵喵玄
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        前端工程师
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>上海</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        8
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        3
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        0
+                    </p>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/Supermiaomiao" target="_blank">
+                github✨</a>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+    
+        
+<div class="card widget column-left is-sticky" id="toc">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                目录
+            </h3>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#前言">
+        <span class="has-mr-6">1</span>
+        <span>前言</span>
+        </a></li><li>
+        <a class="is-flex" href="#纯函数">
+        <span class="has-mr-6">2</span>
+        <span>纯函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#参数适配器">
+        <span class="has-mr-6">3</span>
+        <span>参数适配器</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#函数的参数">
+        <span class="has-mr-6">3.1</span>
+        <span>函数的参数</span>
+        </a></li><li>
+        <a class="is-flex" href="#arguments-不建议乱用">
+        <span class="has-mr-6">3.2</span>
+        <span>arguments 不建议乱用</span>
+        </a></li><li>
+        <a class="is-flex" href="#可变函数">
+        <span class="has-mr-6">3.3</span>
+        <span>可变函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#命名参数">
+        <span class="has-mr-6">3.4</span>
+        <span>命名参数</span>
+        </a></li><li>
+        <a class="is-flex" href="#高阶函数">
+        <span class="has-mr-6">3.5</span>
+        <span>高阶函数</span>
+        </a></li><li>
+        <a class="is-flex" href="#参数适配器类型">
+        <span class="has-mr-6">3.6</span>
+        <span>参数适配器类型</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#Pointfree">
+        <span class="has-mr-6">4</span>
+        <span>Pointfree</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#概念和基本用法">
+        <span class="has-mr-6">4.1</span>
+        <span>概念和基本用法</span>
+        </a></li><li>
+        <a class="is-flex" href="#把函数改造成-Pointfree-的风格">
+        <span class="has-mr-6">4.2</span>
+        <span>把函数改造成 Pointfree 的风格</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#闭包及其应用">
+        <span class="has-mr-6">5</span>
+        <span>闭包及其应用</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#使用注意事项">
+        <span class="has-mr-6">5.1</span>
+        <span>使用注意事项</span>
+        </a></li><li>
+        <a class="is-flex" href="#延迟和立刻-lazy-and-eager">
+        <span class="has-mr-6">5.2</span>
+        <span>延迟和立刻 lazy and eager</span>
+        </a></li><li>
+        <a class="is-flex" href="#Memoization">
+        <span class="has-mr-6">5.3</span>
+        <span>Memoization</span>
+        </a></li><li>
+        <a class="is-flex" href="#从一般化到特殊化">
+        <span class="has-mr-6">5.4</span>
+        <span>从一般化到特殊化</span>
+        </a></li><li>
+        <a class="is-flex" href="#特殊化函数的方法">
+        <span class="has-mr-6">5.5</span>
+        <span>特殊化函数的方法</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#不可变性-IMMUTABILITY">
+        <span class="has-mr-6">6</span>
+        <span>不可变性 IMMUTABILITY</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#赋值不变性-assignment-immutability">
+        <span class="has-mr-6">6.1</span>
+        <span>赋值不变性 assignment immutability</span>
+        </a></li><li>
+        <a class="is-flex" href="#值的不变性-value-immutability">
+        <span class="has-mr-6">6.2</span>
+        <span>值的不变性 value immutability</span>
+        </a></li><li>
+        <a class="is-flex" href="#不可变的数据结构-Immutable-data-structures">
+        <span class="has-mr-6">6.3</span>
+        <span>不可变的数据结构 Immutable data structures</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#递归-Recursion">
+        <span class="has-mr-6">7</span>
+        <span>递归 Recursion</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#什么限制了递归的实际使用">
+        <span class="has-mr-6">7.1</span>
+        <span>什么限制了递归的实际使用</span>
+        </a></li><li>
+        <a class="is-flex" href="#尾递归优化-tail-call">
+        <span class="has-mr-6">7.2</span>
+        <span>尾递归优化 tail call</span>
+        </a></li><li>
+        <a class="is-flex" href="#Trampoline">
+        <span class="has-mr-6">7.3</span>
+        <span>Trampoline</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#学习资料">
+        <span class="has-mr-6">8</span>
+        <span>学习资料</span>
+        </a></li></ul>
+        </div>
+    </div>
+</div>
+
+    
+    
+            <div class="column-right-shadow  ">
+        
+        </div>
+    
+</div>
+
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/cat_fav.svg" alt="function light JS 笔记" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 Super喵喵玄&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+<script>
+var IcarusThemeSettings = {
+    article: {
+        highlight: {
+            clipboard: true,
+            fold: ''
+        }
+    }
+};
+</script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+
+
+
+    
+    
+<script src="/js/animation.js"></script>
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+<script src="/js/gallery.js" defer></script>
+
+    
+    
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+    
+    
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
