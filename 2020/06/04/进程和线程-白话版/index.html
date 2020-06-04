@@ -7,20 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 
-<title>喵喵玄的blog</title>
+<title>进程和线程(白话版) - 喵喵玄的blog</title>
 
 
-    <meta name="description" content="code">
-<meta property="og:type" content="website">
-<meta property="og:title" content="喵喵玄的blog">
-<meta property="og:url" content="http://miaomiaoxuan.cn/index.html">
+    <meta name="description" content="用自己的话理解一下这个貌似对于前端来说貌似重要而不紧急的概念，附有代码示例  概念进程 什么是进程进程就是一个程序运行起来。一个程序可以运行很多份，比如打开多个 vi，运行中的那个程序就是进程。  多进程就是支持同时听歌、上网、QQ。感知上是同时执行，实际上是 cpu 把时间一会给这个一会给那个，cpu 速度很快用户就感受不到切换。  多核的概念运算器、控制器、寄存器组合在一起就是一个CPU。一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="进程和线程(白话版)">
+<meta property="og:url" content="http://miaomiaoxuan.cn/2020/06/04/进程和线程-白话版/index.html">
 <meta property="og:site_name" content="喵喵玄的blog">
-<meta property="og:description" content="code">
+<meta property="og:description" content="用自己的话理解一下这个貌似对于前端来说貌似重要而不紧急的概念，附有代码示例  概念进程 什么是进程进程就是一个程序运行起来。一个程序可以运行很多份，比如打开多个 vi，运行中的那个程序就是进程。  多进程就是支持同时听歌、上网、QQ。感知上是同时执行，实际上是 cpu 把时间一会给这个一会给那个，cpu 速度很快用户就感受不到切换。  多核的概念运算器、控制器、寄存器组合在一起就是一个CPU。一">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="http://miaomiaoxuan.cn/images/og_image.png">
+<meta property="og:updated_time" content="2020-06-04T06:06:04.608Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="喵喵玄的blog">
-<meta name="twitter:description" content="code">
+<meta name="twitter:title" content="进程和线程(白话版)">
+<meta name="twitter:description" content="用自己的话理解一下这个貌似对于前端来说貌似重要而不紧急的概念，附有代码示例  概念进程 什么是进程进程就是一个程序运行起来。一个程序可以运行很多份，比如打开多个 vi，运行中的那个程序就是进程。  多进程就是支持同时听歌、上网、QQ。感知上是同时执行，实际上是 cpu 把时间一会给这个一会给那个，cpu 速度很快用户就感受不到切换。  多核的概念运算器、控制器、寄存器组合在一起就是一个CPU。一">
 <meta name="twitter:image" content="http://miaomiaoxuan.cn/images/og_image.png">
 
 
@@ -79,7 +80,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/cat_fav.svg" alt="喵喵玄的blog" height="28">
+                <img src="/images/cat_fav.svg" alt="进程和线程(白话版)" height="28">
             
             </a>
         </div>
@@ -87,7 +88,7 @@
             
             <div class="navbar-start">
                 
-                <a class="navbar-item is-active"
+                <a class="navbar-item"
                 href="/">Home</a>
                 
                 <a class="navbar-item"
@@ -115,6 +116,10 @@
                     
                 
                 
+                <a class="navbar-item is-hidden-tablet catalogue" title="目录" href="javascript:;">
+                    <i class="fas fa-list-ul"></i>
+                </a>
+                
                 
                 <a class="navbar-item search" title="搜索" href="javascript:;">
                     <i class="fas fa-search"></i>
@@ -128,8 +133,7 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
-    
+                <div class="column is-8-tablet is-8-desktop is-9-widescreen has-order-2 column-main">
 <div class="card">
     
     <div class="card-content article ">
@@ -151,7 +155,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/06/04/进程和线程-白话版/">进程和线程(白话版)</a>
+                进程和线程(白话版)
             
         </h1>
         <div class="content">
@@ -208,355 +212,90 @@
 
         </div>
          
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-04-04T01:32:10.000Z">2020-04-04</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    16 分钟 读完 (大约 2474 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/04/04/广告行业概念扫盲/">广告行业概念及指标扫盲</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p>从行业角色和诉求、广告模式(竞价和非竞价)、广告竞价流程、广告效果指标四方面进行了总结。</p>
-</blockquote>
-<h2 id="程序化广告的行业角色和平台工具"><a href="#程序化广告的行业角色和平台工具" class="headerlink" title="程序化广告的行业角色和平台工具"></a>程序化广告的行业角色和平台工具</h2><p>1.流量卖方<br>定义：<br>广告流量的卖方一般是媒体。常见类型有 手握流量的单一媒体（今日头条、爱奇艺等） 和 中小流量的聚合方(baiduBES、googleDoubleClick等)。</p>
-<p>诉求：<br>媒体的核心诉求是有效利用优质流量和长尾流量，提升流量库存收入，减少库存浪费。</p>
-<p>使用平台SSP（Sell-side Platform销售方平台）：<br>媒体可以设定相应的媒体属性（媒体所属分类等信息）、广告位属性（尺寸、可投物料规格）、价格诉求（底价、交易方式等）、投放广告主行业渠道的诉求（允许或禁投不同行业渠道）等。</p>
-        </div>
+                <ul class="post-copyright">
+                    <li><strong>本文标题：</strong><a href="http://miaomiaoxuan.cn/2020/06/04/进程和线程-白话版/">进程和线程(白话版)</a></li>
+                    <li><strong>本文作者：</strong><a href="http://miaomiaoxuan.cn">Super喵喵玄</a></li>
+                    <li><strong>本文链接：</strong><a href="http://miaomiaoxuan.cn/2020/06/04/进程和线程-白话版/">http://miaomiaoxuan.cn/2020/06/04/进程和线程-白话版/</a></li>
+                    <li><strong>发布时间：</strong>2020-06-04</li>
+                    <li><strong>版权声明：</strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+                    </li>
+                </ul>
          
         
         
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/04/04/广告行业概念扫盲/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
         
     </div>
 </div>
 
 
 
-
-
-
-
-
-
-    
 <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-03-07T07:51:46.000Z">2020-03-07</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    7 分钟 读完 (大约 1069 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">文章有用，投喂一下作者吧👼</h3>
+        <div class="buttons is-centered">
             
-                <a class="has-link-black-ter" href="/2020/03/07/container/">container 基本原理</a>
-            
-        </h1>
-        <div class="content">
-            <p>在学习 docker 的具体操作之前, 先了解了一下 container 是什么及其基本原理, 以帮助自己更好的理解和学习。</p>
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alipay.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wechat.png" alt="微信"></div>
+</a>
+
+                
         </div>
-         
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
         
         
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/03/07/container/#more">阅读更多</a>
-                </div>
-            </div>
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/04/广告行业概念扫盲/">
+                <span class="level-item">广告行业概念及指标扫盲</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        
         
     </div>
 </div>
 
 
 
-
-
-
-
-
-
-    
 <div class="card">
-    
-    <div class="card-content article ">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
         
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-17T13:30:22.000Z">2020-02-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/React/">React</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    5 分钟 读完 (大约 708 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/02/17/useRef使用场景说明和举例/">useRef使用场景说明和举例</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ol>
-<li>用于获取并存放组件的 dom 节点, 以便直接对 dom 节点进行原生的事件操作，如果监听事件或进行大小测量。</li>
-<li>利用 useRef 解决由于 hooks 函数式组件产生闭包时无法获取最新 state 的问题。</li>
-<li>存放想要持久化( instant )的数据, 该数据不和 react 组件树的渲染绑定。该数据可以是任何类型，数字、数组、对象、函数，都可以。</li>
-</ol>
-<p>示例代码如下</p>
-        </div>
-         
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/17/useRef使用场景说明和举例/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: true,
+        verify: false,
+        app_id: 'sYkoO41iFaSSUmVXzOME2jlD-gzGzoHsz',
+        app_key: 'iny5WXdjJ7GmWd6WVN3fbblE',
+        placeholder: '有啥问题请评论'
+    });
+</script>
+
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-02-17T11:17:27.000Z">2020-02-17</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/git/">git</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 565 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/02/17/git-checkout-reset-revert-clean-区别/">git checkout/reset/revert/clean 区别</a>
-            
-        </h1>
-        <div class="content">
-            <p>这四个 git 命令主要用于修复错误时重置文件, 但是它们来取消变更什么区别和注意事项呢？</p>
-        </div>
-         
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/02/17/git-checkout-reset-revert-clean-区别/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-01-29T14:36:29.000Z">2020-01-29</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/JavaScript/">JavaScript</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    16 分钟 读完 (大约 2384 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/01/29/异步和Promise执行过程图解/">异步和Promise执行过程图解</a>
-            
-        </h1>
-        <div class="content">
-            <h3 id="为什么会有异步"><a href="#为什么会有异步" class="headerlink" title="为什么会有异步"></a>为什么会有异步</h3><p>JavaScript 是单线程按照代码顺序一行行执行的, 按理说常规的代码应该是同步执行的：遇到函数调用形如 functionName(params) 时, 将函数放入 Call Stack 调用栈中执行, 执行完后从调用栈中 pop 出并返回结果, 再继续执行下一行代码。</p>
-<p>但平时我们用 JavaScript 所写的很多功能并不是 JavaScript, 而是 JS 调用外部接口来实现的, 如 Web Browser APIs（而浏览器是用 c++ 实现的相应功能）。这些功能的执行并不是在 JS 的函数调用栈中, 而是在浏览器中, 并不会阻塞 JS 继续执行后面的代码, 这就形成了异步。</p>
-        </div>
-         
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/01/29/异步和Promise执行过程图解/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-
-    
-<div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-01-13T12:44:52.000Z">2020-01-13</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/React/">React</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    8 分钟 读完 (大约 1202 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2020/01/13/useCallback使用场景/">useCallback使用场景说明和举栗</a>
-            
-        </h1>
-        <div class="content">
-            <blockquote>
-<p>使用 react hooks 时, 父组件向子组件传递函数 或 在 useEffect 中使用外部函数, 如果不做任何处理会出现 组件重复渲染 或 useEffect 中的逻辑被不停触发的情况, 一般这个时候 react-hooks 的 lint 也会报错。这种情况可以使用 useCallback 来将原函数包装一层再传到需要用的地方, 避免异常情况。  </p>
-<p>本文介绍了什么时候应该使用 useCallback, useCallback 如何和 React.memo() 配合使用, 并附上示例代码及gif截屏, 方便更直观的理解。  </p>
-</blockquote>
-        </div>
-         
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2020/01/13/useCallback使用场景/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
 </div>
                 
@@ -640,57 +379,46 @@
 
     
         
-    
-        
-
-
-    
-        
-    
-        
-    <div class="card widget">
+<div class="card widget column-left is-sticky" id="toc">
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                标签
+                目录
             </h3>
-            <div class="field is-grouped is-grouped-multiline">
-                
-            </div>
+            <ul class="menu-list"><li>
+        <a class="is-flex" href="#概念">
+        <span class="has-mr-6">1</span>
+        <span>概念</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#进程">
+        <span class="has-mr-6">1.1</span>
+        <span>进程</span>
+        </a></li><li>
+        <a class="is-flex" href="#线程">
+        <span class="has-mr-6">1.2</span>
+        <span>线程</span>
+        </a></li></ul></li><li>
+        <a class="is-flex" href="#同步问题和方案">
+        <span class="has-mr-6">2</span>
+        <span>同步问题和方案</span>
+        </a><ul class="menu-list"><li>
+        <a class="is-flex" href="#问题">
+        <span class="has-mr-6">2.1</span>
+        <span>问题</span>
+        </a></li><li>
+        <a class="is-flex" href="#方案">
+        <span class="has-mr-6">2.2</span>
+        <span>方案</span>
+        </a></li></ul></li></ul>
         </div>
     </div>
 </div>
 
-
     
     
-            <div class="column-right-shadow is-hidden-widescreen ">
-        
-            
-
-        
-            
-
+            <div class="column-right-shadow  ">
         
         </div>
-    
-</div>
-
-
-                
-                
-
-
-
-
-<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
-    
-        
-
-    
-        
-
-    
     
 </div>
 
@@ -705,7 +433,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/cat_fav.svg" alt="喵喵玄的blog" height="28">
+                    <img src="/images/cat_fav.svg" alt="进程和线程(白话版)" height="28">
                 
                 </a>
                 <p class="is-size-7">
