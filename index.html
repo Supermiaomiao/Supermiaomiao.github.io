@@ -136,13 +136,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-06-04T06:05:02.000Z">2020-06-04</time>
+                <time class="level-item has-text-grey" datetime="2020-05-03T06:05:02.000Z">2020-05-03</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1644 个字)
+                    11 分钟 读完 (大约 1645 个字)
                 </span>
                 
                 
@@ -151,7 +151,7 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2020/06/04/进程和线程-白话版/">进程和线程(白话版)</a>
+                <a class="has-link-black-ter" href="/2020/05/03/进程和线程-白话版/">进程和线程(白话版)</a>
             
         </h1>
         <div class="content">
@@ -159,56 +159,23 @@
 <p>用自己的话理解一下这个貌似对于前端来说貌似重要而不紧急的概念，附有代码示例</p>
 </blockquote>
 <h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h3 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h3><ol>
-<li>什么是进程<br>进程就是一个程序运行起来。一个程序可以运行很多份，比如打开多个 vi，运行中的那个程序就是进程。</li>
+<li><p>什么是进程<br>进程就是一个程序运行起来。一个程序可以运行很多份，比如打开多个 vi，运行中的那个程序就是进程。</p>
+<p> 多进程就是支持同时听歌、上网、QQ。感知上是同时执行，实际上是 cpu 把时间一会给这个一会给那个，cpu 速度很快用户就感受不到切换。</p>
+</li>
 </ol>
-<p>多进程就是支持同时听歌、上网、QQ。感知上是同时执行，实际上是 cpu 把时间一会给这个一会给那个，cpu 速度很快用户就感受不到切换。</p>
 <ol start="2">
-<li><p>多核的概念<br>运算器、控制器、寄存器组合在一起就是一个CPU。<br>一个CPU有好几套运算器、控制器和缓存就把它叫做多核。<br>双倍核心能提高 10 - 20% 性能就很不错了，一是协作上的消耗，二是软件不会为多核配套。</p>
-</li>
-<li><p>进程之间的通信<br>例子：启动器启动游戏程序<br>怎么做：socket，共享内存</p>
-</li>
-</ol>
-<p>重要的是，多进程之间的通信，传递内容，是<strong>操作系统提供API</strong><br>所有能够做的事情，都是操作系统提供的。</p>
-<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><ol>
-<li><p>多线程的概念<br>多进程是一个系统有多个并行的执行序列<br>多线程是一个进程有多个执行序列，有n个线程<br>假设一个程序（一个进程）里面有10个线程<br>操作系统假设给你（进程）分配了10ms（毫秒）<br>那就把10ms平均分配给10 个线程<br>一个进程获得的时间是有限的，多个线程就平均分配这些时间</p>
-</li>
-<li><p>POSIX标准<br>unix 贝尔实验室出的 太贵 90年代被 linux 革命。<br>linux 免费。<br>IEEE 提出 posix 标准，遵循这个标准就可以和 unix、linux 兼容。</p>
-</li>
-<li><p>单线程语言<br>在<strong>语言层面无法创建</strong>一个新的线程。不代表没有多线程，js 有多线程，但是在语言层面不给你用。<br>比如读文件的时候，node 的解释器本身有多线程，在帮你执行。等于说多线程别人帮你做了，给你的接口是单线程的。解释器可以这样做是因为系统给它提供了多线程 api。</p>
-</li>
-</ol>
-<h2 id="同步问题和方案"><a href="#同步问题和方案" class="headerlink" title="同步问题和方案"></a>同步问题和方案</h2><h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><ol>
-<li>现象<br>存钱 1000 次，取钱 1000 次，最后的结果不一定每次都是0。</li>
-</ol>
-<p>执行以下代码：</p>
-<figure class="highlight c hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> balance = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span> *</span><br><span class="line">deposit(<span class="hljs-keyword">void</span> *args) &#123;</span><br><span class="line">    balance += <span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span> *</span><br><span class="line">withdrawal(<span class="hljs-keyword">void</span> *args) &#123;</span><br><span class="line">    balance -= <span class="hljs-number">1</span>;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span></span><br><span class="line">threadDemo() &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> n = <span class="hljs-number">1000</span>;</span><br><span class="line">    <span class="hljs-keyword">pthread_t</span> tid1[n];</span><br><span class="line">    <span class="hljs-keyword">pthread_t</span> tid2[n];</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        pthread_create(&amp;tid1[i], <span class="hljs-literal">NULL</span>, deposit, <span class="hljs-literal">NULL</span>);</span><br><span class="line">        pthread_create(&amp;tid2[i], <span class="hljs-literal">NULL</span>, withdrawal, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="hljs-comment">/*等待子线程执行完*/</span></span><br><span class="line">        pthread_join(tid1[i], <span class="hljs-literal">NULL</span>);</span><br><span class="line">        pthread_join(tid2[i], <span class="hljs-literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"balance %d\n"</span>, balance);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">int</span></span><br><span class="line">main() &#123;</span><br><span class="line">    threadDemo();</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>产生的结果<br><img src="https://i.loli.net/2020/06/04/6uDAId2VF4grzoi.png" alt="4CCC2492-C436-4BEA-B375-BCF33E13437B.png"></p>
-<ol start="2">
-<li>原因<br>同步问题是因为 balance ++ / balance — 这样的操作背后会被汇编编译成好几个指令，1）从内存中拿数据 2）再在寄存器里操作 3）存回内存</li>
-</ol>
-<p>有可能存钱操作和一个取钱操作先后取到了同一个还未被动过的金额数值，取钱的还没算完，存钱操作一下读了3行指令把算好的值存回去了，就产生了存取1000次不一定等于0的情况。</p>
-<p>所以根本的解决方案是，一个操作没有做完的时候，不可以对同一块内存的这个变量做另一个操作。</p>
-<ol start="3">
-<li>引入术语：原子操作<br>原子是不可拆分的，所以原子操作的意思是这一块代码对应的指令不该被其他线程给拆开。<br><img src="https://i.loli.net/2020/06/04/PkuB153Aw9aSmyh.png" alt="2772AEF7-AF02-45F3-A9D1-52192F803BA9.png"><br>[image:F7840D10-003D-4175-8AD8-44D2226D3443-28549-0003C08FA3166C88/2772AEF7-AF02-45F3-A9D1-52192F803BA9.png]</li>
-</ol>
-<h3 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h3><ol>
-<li>互斥锁<br>把变量锁起来，完成操作后解锁。这样这个操作就变成了原子操作。</li>
-</ol>
-<p>在上面的代码加入如下部分（后面略）：</p>
-<figure class="highlight c hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> balance = <span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-comment">// 互斥锁</span></span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">pthread_mutex_t</span> mutex = PTHREAD_MUTEX_INITIALIZER;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span> *</span><br><span class="line">deposit(<span class="hljs-keyword">void</span> *args) &#123;</span><br><span class="line">    <span class="hljs-comment">// 锁住变量, 解锁前其他变量不可操作</span></span><br><span class="line">    <span class="hljs-comment">// 加锁可以保证安全, 但会让性能下降</span></span><br><span class="line">    pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    balance += <span class="hljs-number">1</span>;</span><br><span class="line">    pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span> *</span><br><span class="line">withdrawal(<span class="hljs-keyword">void</span> *args) &#123;</span><br><span class="line">    pthread_mutex_lock(&amp;mutex);</span><br><span class="line">    balance -= <span class="hljs-number">1</span>;</span><br><span class="line">    pthread_mutex_unlock(&amp;mutex);</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到结果，重复执行100次，每次都是 0<br><img src="https://i.loli.net/2020/06/04/1FsmDXAbvxutU8K.png" alt="7312AE0F-AA22-4E4A-A095-8CCC15010E97.png"></p>
-<ol start="2">
-<li>信号量<br>比起上面一种直接锁住的方式，信号量可以控制同时有多少个线程能访问这个资源。如果把限制设置为1，就和上面的互斥锁效果一样。</li>
-</ol>
-<p>限制的方式是，设置一个整数变量，<br>进行操作的时候 - 1，要是前面设置的变量被减少到 0 了，另外的线程就停住等待；<br>等操作完了再把前面的整数 + 1。<br>-1 和 + 1 都是内置的操作，不需要自己写。</p>
-<figure class="highlight c hljs"><table><tr><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;pthread.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;semaphore.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">/*</span></span><br><span class="line"><span class="hljs-comment"> 1，信号量本身，用 sem_open 创建的时候要赋予一个值</span></span><br><span class="line"><span class="hljs-comment"> 2，sem_wait 用于把信号量 -1，但信号量为 0 时，这个函数会停住等待</span></span><br><span class="line"><span class="hljs-comment"> 3，sem_post 用于把信号量 +1</span></span><br><span class="line"><span class="hljs-comment"></span></span><br><span class="line"><span class="hljs-comment"> 这里创建一个值为 1 的信号量</span></span><br><span class="line"><span class="hljs-comment"> 存取钱时候先 wait 再 post</span></span><br><span class="line"><span class="hljs-comment">*/</span></span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> balance = <span class="hljs-number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 信号量变量</span></span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">sem_t</span> *bankSem;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span> *</span><br><span class="line">deposit(<span class="hljs-keyword">void</span> *args) &#123;</span><br><span class="line">    <span class="hljs-comment">// bankSem-1 , 如果 bankSem 是 0 的话就等</span></span><br><span class="line">    <span class="hljs-comment">// 由于 sem 初始化的值是 1 所以同时只有一个线程能够往下执行代码</span></span><br><span class="line">    sem_wait(bankSem);</span><br><span class="line"></span><br><span class="line">    balance += <span class="hljs-number">10</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// bankSem+1</span></span><br><span class="line">    <span class="hljs-comment">// 这样别的线程才能 sem_wait 成功</span></span><br><span class="line">    sem_post(bankSem);</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span> *</span><br><span class="line">withdraw(<span class="hljs-keyword">void</span> *args) &#123;</span><br><span class="line">    sem_wait(bankSem);</span><br><span class="line"></span><br><span class="line">    balance -= <span class="hljs-number">10</span>;</span><br><span class="line"></span><br><span class="line">    sem_post(bankSem);</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-literal">NULL</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">void</span></span><br><span class="line">multiThread(<span class="hljs-keyword">void</span>) &#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> n = <span class="hljs-number">10000</span>;</span><br><span class="line">    <span class="hljs-keyword">pthread_t</span> tid1[n];</span><br><span class="line">    <span class="hljs-keyword">pthread_t</span> tid2[n];</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        pthread_create(&amp;tid1[i], <span class="hljs-literal">NULL</span>, deposit, <span class="hljs-literal">NULL</span>);</span><br><span class="line">        pthread_create(&amp;tid2[i], <span class="hljs-literal">NULL</span>, withdraw, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">size_t</span> i = <span class="hljs-number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        pthread_join(tid1[i], <span class="hljs-literal">NULL</span>);</span><br><span class="line">        pthread_join(tid2[i], <span class="hljs-literal">NULL</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">int</span></span><br><span class="line">main(<span class="hljs-keyword">void</span>) &#123;</span><br><span class="line">    <span class="hljs-comment">// 信号量必须初始化</span></span><br><span class="line">    <span class="hljs-comment">// 名字以 / 开头是最佳建议</span></span><br><span class="line">    <span class="hljs-comment">// sem_open 创建的信号量可以在不同进程间共享</span></span><br><span class="line">    <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *name = <span class="hljs-string">"/axe_bank"</span>;</span><br><span class="line">    <span class="hljs-comment">// O_CREAT 表示创建信号量</span></span><br><span class="line">    <span class="hljs-keyword">int</span> flag = O_CREAT;</span><br><span class="line">    <span class="hljs-keyword">int</span> permission = S_IRWXU;</span><br><span class="line">    <span class="hljs-comment">// 信号量的值是 1</span></span><br><span class="line">    <span class="hljs-keyword">int</span> value = <span class="hljs-number">1</span>;</span><br><span class="line">    bankSem = sem_open(name, flag, permission, value);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 多线程存取钱操作</span></span><br><span class="line">    multiThread();</span><br><span class="line">    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"balance %d\n"</span>, balance);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// 最后要用下面两个函数删除</span></span><br><span class="line">    sem_close(bankSem);</span><br><span class="line">    sem_unlink(name);</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+<li><p>进程之间的通信<br>例子：启动器启动游戏程序<br>怎么做：socket，共享内存</p></li></ol>
         </div>
          
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/05/03/进程和线程-白话版/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
